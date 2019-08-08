@@ -22,7 +22,8 @@ public class UserController {
         @RequestMapping("/getUserByToken")
         public Result getUser(){
             User user = ShiroUtil.getUser();
-            user.getPassword();
+            user.getCompanyId();
+            //ceshi
             return  new Result(ResultStatusCode.OK,user);
         }
 
