@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhbim.bimvr.dao.mapper.ResMeterialMapper" >
+  <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.ResMeterial" >
+    <id column="res_meterial_id" property="resMeterialId" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    res_meterial_id, model_id, project_id, company_id, url
+  </sql>
+  <select id="getOneRes" resultMap="BaseResultMap" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResMeterial" >
+    select
+    <include refid="Base_Column_List" />
+    from res_meterial
+    where
+    model_id = #{modelId,jdbcType=VARCHAR}
+    and
+    project_id = #{projectId,jdbcType=INTEGER}
+    and
+    company_id = #{companyId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from res_meterial
+    where res_meterial_id = #{resMeterialId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from res_meterial
+    where res_meterial_id = #{resMeterialId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResMeterial" >
+    insert into res_meterial (res_meterial_id, model_id, project_id, 
+      company_id, url)
+    values (#{resMeterialId,jdbcType=INTEGER}, #{modelId,jdbcType=VARCHAR}, #{projectId,jdbcType=BIGINT}, 
+      #{companyId,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResMeterial" >
+    insert into res_meterial
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resMeterialId != null" >
+        res_meterial_id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resMeterialId != null" >
+        #{resMeterialId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResMeterial" >
+    update res_meterial
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where res_meterial_id = #{resMeterialId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResMeterial" >
+    update res_meterial
+    set model_id = #{modelId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=BIGINT},
+      company_id = #{companyId,jdbcType=BIGINT},
+      url = #{url,jdbcType=VARCHAR}
+    where res_meterial_id = #{resMeterialId,jdbcType=INTEGER}
+  </update>
+</mapper>

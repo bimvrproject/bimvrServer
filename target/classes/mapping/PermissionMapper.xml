@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhbim.bimvr.dao.mapper.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.Permission" >
+    <id column="permission_id" property="permissionId" jdbcType="BIGINT" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="descrption" property="descrption" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    permission_id, permission, descrption
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.Permission" >
+    insert into permission (permission_id, permission, descrption
+      )
+    values (#{permissionId,jdbcType=BIGINT}, #{permission,jdbcType=VARCHAR}, #{descrption,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Permission" >
+    insert into permission
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="permissionId != null" >
+        permission_id,
+      </if>
+      <if test="permission != null" >
+        permission,
+      </if>
+      <if test="descrption != null" >
+        descrption,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="permissionId != null" >
+        #{permissionId,jdbcType=BIGINT},
+      </if>
+      <if test="permission != null" >
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="descrption != null" >
+        #{descrption,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Permission" >
+    update permission
+    <set >
+      <if test="permission != null" >
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="descrption != null" >
+        descrption = #{descrption,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.Permission" >
+    update permission
+    set permission = #{permission,jdbcType=VARCHAR},
+      descrption = #{descrption,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+</mapper>

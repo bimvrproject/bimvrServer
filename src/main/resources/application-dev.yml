@@ -1,0 +1,18 @@
+server:
+  port: 6666
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.6.141:3306/bimvr?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    username: root
+    password: bimvr55@
+    filters: wall,mergeStat
+    data-source-name: beta
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: bimvr55@
+logging:
+  config: classpath:log/logback-spring.xml
+  path: E:/log/bimvr

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhbim.bimvr.dao.mapper.MemberPaymentRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.MemberPaymentRecord" >
+    <id column="payment_id" property="paymentId" jdbcType="BIGINT" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    payment_id, company_id, payment, time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from member_payment_record
+    where payment_id = #{paymentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from member_payment_record
+    where payment_id = #{paymentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.MemberPaymentRecord" >
+    insert into member_payment_record (payment_id, company_id, payment, 
+      time)
+    values (#{paymentId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{payment,jdbcType=DECIMAL}, 
+      #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.MemberPaymentRecord" >
+    insert into member_payment_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="payment != null" >
+        payment,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="payment != null" >
+        #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.MemberPaymentRecord" >
+    update member_payment_record
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="payment != null" >
+        payment = #{payment,jdbcType=DECIMAL},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where payment_id = #{paymentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.MemberPaymentRecord" >
+    update member_payment_record
+    set company_id = #{companyId,jdbcType=BIGINT},
+      payment = #{payment,jdbcType=DECIMAL},
+      time = #{time,jdbcType=TIMESTAMP}
+    where payment_id = #{paymentId,jdbcType=BIGINT}
+  </update>
+</mapper>

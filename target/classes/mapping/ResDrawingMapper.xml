@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhbim.bimvr.dao.mapper.ResDrawingMapper" >
+  <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.ResDrawing" >
+    <id column="res_picture_id" property="resPictureId" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="url_json" property="urlJson" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    res_picture_id, model_id, project_id, company_id, url_json
+  </sql>
+  <select id="getOneRes" resultMap="BaseResultMap" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResDrawing" >
+    select
+    <include refid="Base_Column_List" />
+    from res_drawing
+    where
+        model_id = #{modelId,jdbcType=VARCHAR}
+      and
+        project_id = #{projectId,jdbcType=INTEGER}
+    and
+        company_id = #{companyId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from res_drawing
+    where res_picture_id = #{resPictureId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from res_drawing
+    where res_picture_id = #{resPictureId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResDrawing" >
+    insert into res_drawing (res_picture_id, model_id, project_id, 
+      company_id, url_json)
+    values (#{resPictureId,jdbcType=INTEGER}, #{modelId,jdbcType=VARCHAR}, #{projectId,jdbcType=BIGINT}, 
+      #{companyId,jdbcType=BIGINT}, #{urlJson,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResDrawing" >
+    insert into res_drawing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resPictureId != null" >
+        res_picture_id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="urlJson != null" >
+        url_json,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resPictureId != null" >
+        #{resPictureId,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="urlJson != null" >
+        #{urlJson,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResDrawing" >
+    update res_drawing
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="urlJson != null" >
+        url_json = #{urlJson,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where res_picture_id = #{resPictureId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResDrawing" >
+    update res_drawing
+    set model_id = #{modelId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=BIGINT},
+      company_id = #{companyId,jdbcType=BIGINT},
+      url_json = #{urlJson,jdbcType=VARCHAR}
+    where res_picture_id = #{resPictureId,jdbcType=INTEGER}
+  </update>
+</mapper>
