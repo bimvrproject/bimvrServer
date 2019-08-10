@@ -9,7 +9,7 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: pro
 #    include: druid #加载application-druid.yml配置文件
 
   datasource:
