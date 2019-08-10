@@ -1,2 +1,2 @@
 # bimvrServer
-后台程序
+bimvr项目后台程序
