@@ -1,9 +1,19 @@
 package com.jhbim.bimvr.dao.entity.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.jhbim.bimvr.helper.LongJsonDeserializer;
+import com.jhbim.bimvr.helper.LongJsonSerializer;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class Project implements Serializable {
+
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long projectId;
 
     private String projectName;
@@ -19,6 +29,12 @@ public class Project implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    private String projectAddress;
+
+    private String projectContent;
+
+
 
     private static final long serialVersionUID = 1L;
 
@@ -86,21 +102,35 @@ public class Project implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getProjectAddress() {
+        return projectAddress;
+    }
+
+    public void setProjectAddress(String projectAddress) {
+        this.projectAddress = projectAddress;
+    }
+
+    public String getProjectContent() {
+        return projectContent;
+    }
+
+    public void setProjectContent(String projectContent) {
+        this.projectContent = projectContent;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", projectId=").append(projectId);
-        sb.append(", projectName=").append(projectName);
-        sb.append(", projectModelAddr=").append(projectModelAddr);
-        sb.append(", projectStatus=").append(projectStatus);
-        sb.append(", startTime=").append(startTime);
-        sb.append(", endTime=").append(endTime);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append("]");
-        return sb.toString();
+        return "Project{" +
+                "projectId=" + projectId +
+                ", projectName='" + projectName + '\'' +
+                ", projectModelAddr='" + projectModelAddr + '\'' +
+                ", projectStatus=" + projectStatus +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", projectAddress='" + projectAddress + '\'' +
+                ", projectContent='" + projectContent + '\'' +
+                '}';
     }
 }

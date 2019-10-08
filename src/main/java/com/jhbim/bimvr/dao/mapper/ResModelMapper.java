@@ -1,6 +1,7 @@
 package com.jhbim.bimvr.dao.mapper;
 
 import com.jhbim.bimvr.dao.entity.pojo.ResModel;
+import org.apache.ibatis.annotations.Param;
 
 public interface ResModelMapper {
     int deleteByPrimaryKey(Integer resModelId);
@@ -16,4 +17,6 @@ public interface ResModelMapper {
     int updateByPrimaryKey(ResModel record);
 
     ResModel getOneRes(ResModel resModel);
+    //根据项目id删除相关信息
+    int deleteproject(Long projectid);
 }

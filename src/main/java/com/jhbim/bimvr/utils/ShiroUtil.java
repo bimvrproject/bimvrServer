@@ -10,6 +10,7 @@ public class ShiroUtil {
     }
 
     public static String getUserName() {
+
         return ((User) SecurityUtils.getSubject().getPrincipal()).getUserName();
     }
 

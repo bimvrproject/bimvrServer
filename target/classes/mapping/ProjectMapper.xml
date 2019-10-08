@@ -10,10 +10,12 @@
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="project_address" property="projectAddress" jdbcType="VARCHAR" />
+    <result column="project_content" property="projectContent" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     project_id, project_name, project_model_addr, project_status, start_time, end_time, 
-    create_time, update_time
+    create_time, update_time,project_address,project_content
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -28,10 +30,10 @@
   <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.Project" >
     insert into project (project_id, project_name, project_model_addr, 
       project_status, start_time, end_time, 
-      create_time, update_time)
-    values (#{projectId,jdbcType=BIGINT}, #{projectName,jdbcType=VARCHAR}, #{projectModelAddr,jdbcType=VARCHAR}, 
+      create_time, update_time,project_address,project_content)
+    values (#{projectId,jdbcType=BIGINT}, #{projectName,jdbcType=VARCHAR}, #{projectModelAddr,jdbcType=VARCHAR},
       #{projectStatus,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},#{projectAddress,jdbcType=VARCHAR},#{projectContent,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Project" >
     insert into project
@@ -60,6 +62,12 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="projectAddress != null">
+        project_address,
+      </if>
+      <if test="projectContent != null">
+        project_content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="projectId != null" >
@@ -85,6 +93,12 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectAddress != null">
+        #{projectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        #{projectContent,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -112,6 +126,12 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="projectAddress != null">
+        project_address = #{projectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        project_content = #{projectContent,jdbcType=VARCHAR},
+      </if>
     </set>
     where project_id = #{projectId,jdbcType=BIGINT}
   </update>
@@ -123,7 +143,9 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      project_address = #{projectAddress,jdbcType=VARCHAR},
+      project_content = #{projectContent,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=BIGINT}
   </update>
 
@@ -135,5 +157,12 @@
   <select id="getProject" resultMap="BaseResultMap" parameterType="java.lang.Long">
        SELECT *  FROM project WHERE project_id = #{projectId}
   </select>
-
+  <!--根据当前登录用户查询出有关用户的所有的项目...-->
+  <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+     SELECT *  FROM project WHERE project_id = #{projectId}
+  </select>
+  <!--保存上传模型-->
+  <update id="ByUrlAddress" parameterType="com.jhbim.bimvr.dao.entity.pojo.Project">
+      update project set project_model_addr = #{projectModelAddr,jdbcType=VARCHAR} where project_id = #{projectId,jdbcType=BIGINT};
+  </update>
 </mapper>

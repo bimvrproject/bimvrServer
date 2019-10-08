@@ -58,22 +58,16 @@ public class UserPhoneRealm extends AuthorizingRealm {
         String phone = token.getUsername();
         // 手机验证码
         String validCode = String.valueOf(token.getPassword());
-
-        // 这里假装从redis中获取了验证码为 123456，并对比密码是否正确
-        if(!"123456".equals(validCode)){
-            log.debug("验证码错误，手机号为：{}", phone);
-            throw new IncorrectCredentialsException();
-        }
-
         User user = userService.getByPhone(phone);
         if(user == null){
             throw new UnknownAccountException();
+        }else{
+            log.info(user.toString());
         }
         // 用户为禁用状态
         if(user.getLoginFlag().equals("0")){
             throw new DisabledAccountException();
         }
-
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 user, //用户
                 validCode, //密码
@@ -81,7 +75,6 @@ public class UserPhoneRealm extends AuthorizingRealm {
         );
         return authenticationInfo;
     }
-
     /**
      * 授权
      */

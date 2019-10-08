@@ -47,4 +47,18 @@ public class UserServiceImpl implements IUserService {
 
         return result;
     }
+
+    @Override
+    public int register(String username, String password) {
+       User returnu =  userMapper.findByUserName(username);
+       if (returnu==null){
+           User user = new User();
+           user.setUserName(username);
+           user.setPassword(MD5Util.encrypt(password));
+           int insert = userMapper.insert(user);
+           return insert;
+       }else{
+           return 0;
+       }
+    }
 }

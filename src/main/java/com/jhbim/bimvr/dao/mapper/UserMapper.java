@@ -23,4 +23,7 @@ public interface UserMapper {
     User getByOpenId(String openId);
 
     int updatePwd(User user);
+
+
+
 }

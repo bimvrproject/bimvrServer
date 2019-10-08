@@ -21,4 +21,6 @@ public interface ProjectMapper {
     List<Project> getProjectId(Long companyId);
     //获取project
     Project getProject(Long projectId);
+    //根据当前登录用户查询出有关用户的所有的项目...
+    List<Project> findById(Long projectid);
 }

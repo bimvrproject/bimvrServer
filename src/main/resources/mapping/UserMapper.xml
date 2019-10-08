@@ -20,6 +20,7 @@
     user_id, user_name, company_id, role_id, password, salt, name, phone, create_time, 
     update_time, version, login_flag, open_id
   </sql>
+  <!--修改密码-->
   <update id="updatePwd" parameterType="com.jhbim.bimvr.dao.entity.pojo.User" >
     update user
     set password = #{password,jdbcType=VARCHAR}

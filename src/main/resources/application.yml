@@ -1,15 +1,15 @@
-version: v1.0
+version: v1.0.1
 
 # 服务器开放的静态资源
 server:
   project:
     baseUrl: http://36.112.65.110:8080
-  picture:
-    baseUrl: http://puvov75x3.bkt.clouddn.com
+#  picture:
+#    baseUrl: http://puvov75x3.bkt.clouddn.com
 
 spring:
   profiles:
-    active: pro
+    active: dev
 #    include: druid #加载application-druid.yml配置文件
 
   datasource:

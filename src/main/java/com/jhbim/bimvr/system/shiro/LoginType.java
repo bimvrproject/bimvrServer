@@ -14,6 +14,10 @@ public enum LoginType {
      */
     USER_PHONE("user_phone_realm"),
     /**
+     *  手机验证码注册
+     */
+    USER_REGISTER("user_register_realm"),
+    /**
      * 第三方登录(微信登录)
      */
     WECHAT_LOGIN("wechat_login_realm");

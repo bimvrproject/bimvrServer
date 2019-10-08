@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhbim.bimvr.dao.mapper.DocumentMapper" >
+  <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.Document" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="suffix" property="suffix" jdbcType="VARCHAR" />
+    <result column="local_url" property="localUrl" jdbcType="VARCHAR" />
+    <result column="visit_url" property="visitUrl" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="check_times" property="checkTimes" jdbcType="INTEGER" />
+    <result column="download_times" property="downloadTimes" jdbcType="INTEGER" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="is_downloadable" property="isDownloadable" jdbcType="INTEGER" />
+    <result column="is_uploadable" property="isUploadable" jdbcType="INTEGER" />
+    <result column="is_visible" property="isVisible" jdbcType="INTEGER" />
+    <result column="is_deletable" property="isDeletable" jdbcType="INTEGER" />
+    <result column="is_updatable" property="isUpdatable" jdbcType="INTEGER" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, suffix, local_url, visit_url, size, create_time, description, check_times, 
+    download_times, tag, user_id, category_id, is_downloadable, is_uploadable, is_visible, 
+    is_deletable, is_updatable, last_modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="long"  >
+    select 
+    <include refid="Base_Column_List" />
+    from document
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="select" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from document
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from document
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.Document" >
+    insert into document (id, name, suffix, 
+      local_url, visit_url, size, 
+      create_time, description, check_times, 
+      download_times, tag, user_id, 
+      category_id, is_downloadable, is_uploadable, 
+      is_visible, is_deletable, is_updatable, 
+      last_modify_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
+      #{localUrl,jdbcType=VARCHAR}, #{visitUrl,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{checkTimes,jdbcType=INTEGER}, 
+      #{downloadTimes,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{categoryId,jdbcType=INTEGER}, #{isDownloadable,jdbcType=INTEGER}, #{isUploadable,jdbcType=INTEGER}, 
+      #{isVisible,jdbcType=INTEGER}, #{isDeletable,jdbcType=INTEGER}, #{isUpdatable,jdbcType=INTEGER}, 
+      #{lastModifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Document" >
+    insert into document
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="suffix != null" >
+        suffix,
+      </if>
+      <if test="localUrl != null" >
+        local_url,
+      </if>
+      <if test="visitUrl != null" >
+        visit_url,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="checkTimes != null" >
+        check_times,
+      </if>
+      <if test="downloadTimes != null" >
+        download_times,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="isDownloadable != null" >
+        is_downloadable,
+      </if>
+      <if test="isUploadable != null" >
+        is_uploadable,
+      </if>
+      <if test="isVisible != null" >
+        is_visible,
+      </if>
+      <if test="isDeletable != null" >
+        is_deletable,
+      </if>
+      <if test="isUpdatable != null" >
+        is_updatable,
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null" >
+        #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="localUrl != null" >
+        #{localUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="visitUrl != null" >
+        #{visitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTimes != null" >
+        #{checkTimes,jdbcType=INTEGER},
+      </if>
+      <if test="downloadTimes != null" >
+        #{downloadTimes,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isDownloadable != null" >
+        #{isDownloadable,jdbcType=INTEGER},
+      </if>
+      <if test="isUploadable != null" >
+        #{isUploadable,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null" >
+        #{isVisible,jdbcType=INTEGER},
+      </if>
+      <if test="isDeletable != null" >
+        #{isDeletable,jdbcType=INTEGER},
+      </if>
+      <if test="isUpdatable != null" >
+        #{isUpdatable,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifyTime != null" >
+        #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Document" >
+    update document
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="suffix != null" >
+        suffix = #{suffix,jdbcType=VARCHAR},
+      </if>
+      <if test="localUrl != null" >
+        local_url = #{localUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="visitUrl != null" >
+        visit_url = #{visitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTimes != null" >
+        check_times = #{checkTimes,jdbcType=INTEGER},
+      </if>
+      <if test="downloadTimes != null" >
+        download_times = #{downloadTimes,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="isDownloadable != null" >
+        is_downloadable = #{isDownloadable,jdbcType=INTEGER},
+      </if>
+      <if test="isUploadable != null" >
+        is_uploadable = #{isUploadable,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null" >
+        is_visible = #{isVisible,jdbcType=INTEGER},
+      </if>
+      <if test="isDeletable != null" >
+        is_deletable = #{isDeletable,jdbcType=INTEGER},
+      </if>
+      <if test="isUpdatable != null" >
+        is_updatable = #{isUpdatable,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.Document" >
+    update document
+    set name = #{name,jdbcType=VARCHAR},
+      suffix = #{suffix,jdbcType=VARCHAR},
+      local_url = #{localUrl,jdbcType=VARCHAR},
+      visit_url = #{visitUrl,jdbcType=VARCHAR},
+      size = #{size,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      check_times = #{checkTimes,jdbcType=INTEGER},
+      download_times = #{downloadTimes,jdbcType=INTEGER},
+      tag = #{tag,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      is_downloadable = #{isDownloadable,jdbcType=INTEGER},
+      is_uploadable = #{isUploadable,jdbcType=INTEGER},
+      is_visible = #{isVisible,jdbcType=INTEGER},
+      is_deletable = #{isDeletable,jdbcType=INTEGER},
+      is_updatable = #{isUpdatable,jdbcType=INTEGER},
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

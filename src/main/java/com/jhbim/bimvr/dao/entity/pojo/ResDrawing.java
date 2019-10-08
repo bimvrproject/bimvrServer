@@ -11,7 +11,11 @@ public class ResDrawing implements Serializable {
 
     private Long companyId;
 
-    private String urlJson;
+    private String url;
+
+    private String drawName;
+
+    private Integer drawType;
 
     private static final long serialVersionUID = 1L;
 
@@ -47,26 +51,40 @@ public class ResDrawing implements Serializable {
         this.companyId = companyId;
     }
 
-    public String getUrlJson() {
-        return urlJson;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUrlJson(String urlJson) {
-        this.urlJson = urlJson == null ? null : urlJson.trim();
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDrawName() {
+        return drawName;
+    }
+
+    public void setDrawName(String drawName) {
+        this.drawName = drawName;
+    }
+
+    public Integer getDrawType() {
+        return drawType;
+    }
+
+    public void setDrawType(Integer drawType) {
+        this.drawType = drawType;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", resPictureId=").append(resPictureId);
-        sb.append(", modelId=").append(modelId);
-        sb.append(", projectId=").append(projectId);
-        sb.append(", companyId=").append(companyId);
-        sb.append(", urlJson=").append(urlJson);
-        sb.append("]");
-        return sb.toString();
+        return "ResDrawing{" +
+                "resPictureId=" + resPictureId +
+                ", modelId='" + modelId + '\'' +
+                ", projectId=" + projectId +
+                ", companyId=" + companyId +
+                ", url='" + url + '\'' +
+                ", drawName='" + drawName + '\'' +
+                ", drawType=" + drawType +
+                '}';
     }
 }

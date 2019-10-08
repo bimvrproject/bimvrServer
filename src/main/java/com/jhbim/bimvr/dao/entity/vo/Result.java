@@ -18,6 +18,9 @@ public class Result {
 		this.data = data;
 	}
 
+	public Result() {
+	}
+
 	public Result(ResultStatusCode resultStatusCode, Object data){
 		this(resultStatusCode.getCode(), resultStatusCode.getMsg(), data);
 	}

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhbim.bimvr.dao.mapper.AppMapper" >
+  <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.App" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="visit_url" property="visitUrl" jdbcType="VARCHAR" />
+    <result column="is_downloadable" property="isDownloadable" jdbcType="INTEGER" />
+    <result column="is_visible" property="isVisible" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="scheme" property="scheme" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, visit_url, is_downloadable, is_visible, project_id, type,scheme
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from app
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from app
+    where project_id = #{project_id,jdbcType=BIGINT} and type = 1
+  </select>
+  <select id="select" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from app
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from app
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.App" >
+    insert into app (id, name, visit_url,
+      is_downloadable, is_visible, project_id,scheme,
+      type)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{visitUrl,jdbcType=VARCHAR},
+      #{isDownloadable,jdbcType=INTEGER}, #{isVisible,jdbcType=INTEGER}, #{projectId,jdbcType=BIGINT},
+      #{type,jdbcType=INTEGER},#{scheme,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.App" >
+    insert into app
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="visitUrl != null" >
+        visit_url,
+      </if>
+      <if test="isDownloadable != null" >
+        is_downloadable,
+      </if>
+      <if test="isVisible != null" >
+        is_visible,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="scheme != null" >
+        scheme,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="visitUrl != null" >
+        #{visitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isDownloadable != null" >
+        #{isDownloadable,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null" >
+        #{isVisible,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="scheme != null" >
+        #{scheme,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.App" >
+    update app
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="visitUrl != null" >
+        visit_url = #{visitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isDownloadable != null" >
+        is_downloadable = #{isDownloadable,jdbcType=INTEGER},
+      </if>
+      <if test="isVisible != null" >
+        is_visible = #{isVisible,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="scheme != null" >
+        type = #{scheme,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.App" >
+    update app
+    set name = #{name,jdbcType=VARCHAR},
+      visit_url = #{visitUrl,jdbcType=VARCHAR},
+      is_downloadable = #{isDownloadable,jdbcType=INTEGER},
+      is_visible = #{isVisible,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      scheme = #{scheme,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

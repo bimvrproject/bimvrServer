@@ -1,29 +1,41 @@
 package com.jhbim.bimvr.controller;
 
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.jhbim.bimvr.dao.entity.pojo.User;
 import com.jhbim.bimvr.dao.entity.vo.Result;
+import com.jhbim.bimvr.dao.mapper.UserMapper;
 import com.jhbim.bimvr.service.IUserService;
 import com.jhbim.bimvr.system.enums.ResultStatusCode;
 import com.jhbim.bimvr.system.shiro.LoginType;
+import com.jhbim.bimvr.system.shiro.SMSConfig;
 import com.jhbim.bimvr.system.shiro.UserToken;
+import com.jhbim.bimvr.utils.ShiroUtil;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/${version}/user")
 public class LoginController {
-
     @Resource
     IUserService userService;
-
+    @Resource
+    public RedisTemplate redisTemplate;
+    @Resource
+    UserMapper userMapper;
     /**
      * 用户密码登录
      * @param username
@@ -40,14 +52,26 @@ public class LoginController {
      * 手机验证码登录
      *      注：由于是demo演示，此处不添加发送验证码方法；
      *          正常操作：发送验证码至手机并且将验证码存放在redis中，登录的时候比较用户穿过来的验证码和redis中存放的验证码
-     * @param phone
-     * @param code
+     * @param
+     * @param
      * @return
      */
     @RequestMapping("phoneLogin")
-    public Result phoneLogin(String phone, String code){
-        // 此处phone替换了username，code替换了password
-        UserToken token = new UserToken(LoginType.USER_PHONE, phone, code);
+    public Result sendSms(String mobile){
+        String random= RandomStringUtils.randomNumeric(6);
+        System.out.println(mobile+"随机数:"+random);
+        redisTemplate.opsForValue().set(mobile,random+"",5, TimeUnit.MINUTES);  	//	5分钟过期
+        SMSConfig.send(mobile,random);
+        UserToken token = new UserToken(LoginType.USER_PHONE, mobile, random);
+        return shiroLogin(token);
+    }
+    @RequestMapping("RegisterphoneLogin")
+    public Result RegisterphoneLogin(String mobile){
+        String random= RandomStringUtils.randomNumeric(6);
+        System.out.println(mobile+"随机数:"+random);
+        redisTemplate.opsForValue().set(mobile,random+"",5, TimeUnit.MINUTES);  	//	5分钟过期
+        SMSConfig.send(mobile,random);
+        UserToken token = new UserToken(LoginType.USER_REGISTER, mobile, random);
         return shiroLogin(token);
     }
 
@@ -111,6 +135,81 @@ public class LoginController {
             return new Result(ResultStatusCode.FAIL);
         }
 
+    }
+
+    /**
+     *  判断手机号是否存在
+     * @param phone 手机号
+     * @return
+     */
+    @RequestMapping("/register")
+    public Result register(String phone){
+            User user = userMapper.getByPhone(phone);
+            if(user!=null){
+                return new Result(ResultStatusCode.FAIL, user);
+            }
+        return null;
+    }
+
+    /**
+     *  注册获取redis里面的验证码 判断是否一致 完成用户注册
+     * @param smsCode  验证码
+     * @param phone 手机号
+     * @return
+     */
+    @RequestMapping("/RegistercheckSmsCode")
+    public Result checkSmsCode(String smsCode, String phone){
+        Result result = new Result();
+        if(redisTemplate.opsForValue().get(phone)==null){
+            result.setCode(1);
+            result.setMsg("短信验证码输入超时!");
+        }else{
+            String code = redisTemplate.opsForValue().get(phone).toString();
+            if(!code.equals(smsCode)){
+                result.setCode(2);
+                result.setMsg("短信验证码错误!");
+            }else{
+                result.setCode(0);
+                result.setMsg("成功");
+                User user=new User();
+                user.setPhone(phone);
+                userMapper.insertSelective(user);
+                return new Result(ResultStatusCode.OK,"保存成功");
+            }
+        }
+        return result;
+    }
+
+    /**
+     *  登录获取redis里面的验证码 判断是否一致 完成用户登录
+     * @param smsCode 验证码
+     * @param phone 手机号
+     * @param request
+     * @return
+     */
+    @RequestMapping("/LogincheckSmsCode")
+    public Result LogincheckSmsCode(String smsCode, String phone, HttpServletRequest request){
+        Result result = new Result();
+        if(redisTemplate.opsForValue().get(phone)==null){
+            result.setCode(1);
+            result.setMsg("短信验证码输入超时!");
+        }else{
+            String code = redisTemplate.opsForValue().get(phone).toString();
+            if(!code.equals(smsCode)){
+                result.setCode(2);
+                result.setMsg("短信验证码错误!");
+            }else{
+                result.setCode(0);
+                result.setMsg("成功");
+                User user = userMapper.getByPhone(phone);
+                ServletContext application=request.getSession().getServletContext();
+                application.setAttribute("User_CompanyId",user.getCompanyId());
+                Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+                System.out.println(usrcompanyid+"-userCompanyid");
+                System.out.println(user.getCompanyId()+"-userCompanyid");
+            }
+        }
+        return result;
     }
 
 }

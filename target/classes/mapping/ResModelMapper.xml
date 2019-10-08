@@ -101,4 +101,9 @@
       url = #{url,jdbcType=VARCHAR}
     where res_model_id = #{resModelId,jdbcType=INTEGER}
   </update>
+  <!--根据项目id删除相关信息-->
+  <delete id="deleteproject" parameterType="java.lang.Long" >
+    delete from res_model
+    where project_id = #{projectId,jdbcType=BIGINT}
+  </delete>
 </mapper>

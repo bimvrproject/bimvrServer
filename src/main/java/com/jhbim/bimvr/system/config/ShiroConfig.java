@@ -65,9 +65,27 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/v1.0/version/checkVersion", "anon");
 
         filterChainDefinitionMap.put("/druid/**", "anon");
-        // 登录方法
+        filterChainDefinitionMap.put("/"+version+"/userProject/getProject", "anon"); // 表示可以匿名访问
+        // 账号密码登录方法
         filterChainDefinitionMap.put("/"+version+"/user/login", "anon"); // 表示可以匿名访问
-
+        //手机验证码登录
+        filterChainDefinitionMap.put("/"+version+"/user/phoneLogin", "anon"); // 表示可以匿名访问
+        //手机验证码注册
+        filterChainDefinitionMap.put("/"+version+"/user/RegisterphoneLogin", "anon"); // 表示可以匿名访问
+        // 判断手机号是否已注册
+        filterChainDefinitionMap.put("/"+version+"/user/register", "anon"); // 表示可以匿名访问
+        // 注册判断手机号和验证码是否正确  完成注册
+        filterChainDefinitionMap.put("/"+version+"/user/RegistercheckSmsCode", "anon"); // 表示可以匿名访问
+        //登录判断手机号和验证码是否正确  完成登录
+        filterChainDefinitionMap.put("/"+version+"/user/LogincheckSmsCode", "anon"); // 表示可以匿名访问
+        //上传zip建筑方法
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadCategory", "anon");
+        //上传zip建筑图纸方法
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadbuildingdrawing", "anon");
+        //上传zip管道方法
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadpipe", "anon");
+        //绑定项目
+        filterChainDefinitionMap.put("/"+version+"/pcproject/getProject", "anon");
         //此处需要添加一个kickout，上面添加的自定义拦截器才能生效
         filterChainDefinitionMap.put("/"+version+"/**", "authc,kickout");// 表示需要认证才可以访问
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -89,6 +107,8 @@ public class ShiroConfig {
         realms.add(userPasswordRealm());
         // 用户手机号验证码登录realm
         realms.add(userPhoneRealm());
+        //用户手机号验证码注册
+        realms.add(UserRegisterRealm());
         // 微信登录realm
         realms.add(wechatLoginRealm());
 
@@ -144,6 +164,18 @@ public class ShiroConfig {
         userPhoneRealm.setName(LoginType.USER_PHONE.getType());
 
         return userPhoneRealm;
+    }
+
+    /**
+     * 手机号验证码注册
+     * @return
+     */
+    @Bean
+    public UserRegisterRealm UserRegisterRealm(){
+        UserRegisterRealm userRegisterRealm = new UserRegisterRealm();
+        userRegisterRealm.setName(LoginType.USER_REGISTER.getType());
+
+        return userRegisterRealm;
     }
 
     /**
@@ -218,7 +250,7 @@ public class ShiroConfig {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(redisHost);
         redisManager.setPort(redisPort);
-        redisManager.setTimeout(3600*3); //设置过期时间 单位：秒
+        redisManager.setTimeout(360000000*3); //设置过期时间 单位：秒 3600
         redisManager.setPassword(redisPassword);
         return redisManager;
     }

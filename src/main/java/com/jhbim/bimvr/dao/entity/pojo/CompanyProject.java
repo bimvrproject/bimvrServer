@@ -1,11 +1,19 @@
 package com.jhbim.bimvr.dao.entity.pojo;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.jhbim.bimvr.helper.LongJsonDeserializer;
+import com.jhbim.bimvr.helper.LongJsonSerializer;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CompanyProject implements Serializable {
     private Long id;
-
+//    @JsonSerialize(using = ToStringSerializer.class)
+@JsonSerialize(using = LongJsonSerializer.class)
+@JsonDeserialize(using = LongJsonDeserializer.class)
     private Long projectId;
 
     private Long companyId;

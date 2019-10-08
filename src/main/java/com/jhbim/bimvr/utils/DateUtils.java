@@ -11,7 +11,7 @@ import java.util.Date;
  * 日期工具类
  */
 public class DateUtils {
-	
+	private static final String DEFAULT_CONVERT_PATTERN = "yyyyMMddHHmmssSSS";
 	/**
 	 * 根据固定的格式，将字符串转化为Date
 	 * @param str
@@ -29,7 +29,19 @@ public class DateUtils {
 		}
 		
 	}
-
+	public static String getCurrentTimeStrDefault() {
+		return getCurrentTimeStr(DEFAULT_CONVERT_PATTERN);
+	}
+	/**
+	 * 获取当前时间字符串
+	 *
+	 * @param pattern 转换格式
+	 * @return
+	 */
+	public static String getCurrentTimeStr(String pattern) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		return dateFormat.format(new Date());
+	}
 	/**
 	 * 获取过去的天数
 	 * @param date

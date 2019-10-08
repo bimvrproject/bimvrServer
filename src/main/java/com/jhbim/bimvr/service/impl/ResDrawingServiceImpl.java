@@ -30,12 +30,12 @@ public class ResDrawingServiceImpl implements IResDrawingService {
         resDrawing.setModelId(modelId);
         resDrawing = resDrawingMapper.getOneRes(resDrawing);
         // 将资源json字段转换为对象
-        List<ResDrawingVO> resDrawingList = JSON.parseObject(resDrawing.getUrlJson(), new TypeReference<ArrayList<ResDrawingVO>>() {});
+        List<ResDrawingVO> resDrawingList = JSON.parseObject(resDrawing.getUrl(), new TypeReference<ArrayList<ResDrawingVO>>() {});
         // 为每个obj.res.resUrl增加Url前缀
         for (ResDrawingVO resDrawingVO: resDrawingList){
             resDrawingVO.setResUrl(serverProjectBaseUrl);
         }
-        resDrawing.setUrlJson(JSON.toJSONString(resDrawingList));
+        resDrawing.setUrl(JSON.toJSONString(resDrawingList));
 
         return resDrawing;
     }
