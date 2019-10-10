@@ -33,9 +33,6 @@ public class ResDrawingController {
         resDrawing.setProjectId(projectid);
         resDrawing.setCompanyId(companyid);
         resDrawing.setDrawType(drawtypeid);
-        System.out.println(modelid);
-        System.out.println(projectid);
-        System.out.println(drawtypeid);
         return new Result(ResultStatusCode.OK, drawingMapper.getAll(resDrawing));
     }
 
@@ -54,10 +51,9 @@ public class ResDrawingController {
      * @param projectid 项目id
      * @return
      */
-    @GetMapping("/getprojectids/{modelId}/{projectid}")
-    public Result getprojectids(@PathVariable String modelId ,@PathVariable Long projectid){
+    @GetMapping("/getprojectids/{projectid}")
+    public Result getprojectids(@PathVariable Long projectid){
         ResDrawing drawing=new ResDrawing();
-        drawing.setModelId(modelId);
         drawing.setProjectId(projectid);
         return new Result(ResultStatusCode.OK,drawingMapper.getprojectids(drawing));
     }

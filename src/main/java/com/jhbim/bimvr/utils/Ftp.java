@@ -3,9 +3,9 @@ package com.jhbim.bimvr.utils;
 import com.jcraft.jsch.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import sun.misc.BASE64Decoder;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Ftp {
@@ -20,7 +20,15 @@ public class Ftp {
 
     private static ThreadLocal<Ftp> sftpLocal = new ThreadLocal<Ftp>();
 
-    private  Ftp(String host, int port, String username, String password) throws Exception {
+    private static final String host="192.168.6.145";
+
+    private static final int port=26;
+
+    private static final String username="Administrator";
+
+    private static final String password="Jhkj991102";
+
+    private  Ftp() throws Exception {
         JSch jsch = new JSch();
         jsch.getSession(username, host, port);
         //根据用户名，密码，端口号获取session
@@ -28,7 +36,6 @@ public class Ftp {
         sshSession.setPassword(password);
         //修改服务器/etc/ssh/sshd_config 中 GSSAPIAuthentication的值yes为no，解决用户不能远程登录
         sshSession.setConfig("userauth.gssapi-with-mic", "no");
-
         //为session对象设置properties,第一次访问服务器时不用输入yes
         sshSession.setConfig("StrictHostKeyChecking", "no");
         sshSession.connect();
@@ -53,12 +60,12 @@ public class Ftp {
      * @return
      * @throws Exception
      */
-    public static Ftp getSftpUtil(String host, int port, String username, String password) throws Exception {
+    public static Ftp getSftpUtil() throws Exception {
         //获取本地线程
         Ftp sftpUtil = sftpLocal.get();
         if (null == sftpUtil || !sftpUtil.isConnected()) {
             //将新连接防止本地线程，实现并发处理
-            sftpLocal.set(new Ftp(host, port, username, password));
+            sftpLocal.set(new Ftp());
         }
         return sftpLocal.get();
     }
@@ -71,7 +78,6 @@ public class Ftp {
             sftpLocal.get().closeChannel();
             logger.info("关闭连接" + sftpLocal.get().sshSession);
             sftpLocal.set(null);
-
         }
     }
 
@@ -112,10 +118,9 @@ public class Ftp {
             for (int i = 0; i < files.size(); i++) {
                 File file = files.get(i);
                 InputStream input = new BufferedInputStream(new FileInputStream(file));
-                channel.put(input, file.getName());
+                channel.put(input, file.getName(),ChannelSftp.OVERWRITE);
                 try {
                     if (input != null) input.close();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     logger.error(file.getName() + "关闭文件时.....异常!" + e.getMessage());
@@ -166,20 +171,82 @@ public class Ftp {
         return files;
     }
 
+
     /**
-     * 根据项目id删除服务器的文件夹
-     * @param address
+     * 判断目录是否存在
+     * @param directory 目录
+     * @return
      */
-    public void deleteproject(String address){
+    public  boolean isDirExist(String directory) {
         try {
-            System.out.println("地址"+address);
-            channel.cd(address);
-            channel.rmdir(address);
-        } catch (SftpException e) {
+            Vector<?> vector = this.channel.ls(directory);
+            if (null == vector) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 删除stfp文件
+     * @param directory 目录
+     */
+    public  void deleteSFTP(String directory) {
+        try {
+            if (isDirExist(directory)) {
+                Vector<ChannelSftp.LsEntry> vector = this.channel.ls(directory);
+                if (vector.size() == 1) { // 文件，直接删除
+                    this.channel.rm(directory);
+                } else if (vector.size() == 2) { // 空文件夹，直接删除
+                    this.channel.rmdir(directory);
+                } else {
+                    String fileName = "";
+                    // 删除文件夹下所有文件
+                    for (ChannelSftp.LsEntry en : vector) {
+                        fileName = en.getFilename();
+                        if (".".equals(fileName) || "..".equals(fileName)) {
+                            continue;
+                        } else {
+                            deleteSFTP(directory + "/" + fileName);
+                        }
+                    }
+                    this.channel.rmdir(directory);
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-   
+    public  boolean GenerateImage(String imgData, String imgFilePath) throws IOException { // 对字节数组字符串进行Base64解码并生成图片
+        if (imgData == null) // 图像数据为空
+            return false;
+        BASE64Decoder decoder = new BASE64Decoder();
+        OutputStream out = null;
+        try {
+            out = new FileOutputStream(imgFilePath);
+            // Base64解码
+            byte[] b = decoder.decodeBuffer(imgData);
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {// 调整异常数据
+                    b[i] += 256;
+                }
+            }
+            out.write(b);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            out.flush();
+            out.close();
+            return true;
+        }
+    }
 
 }

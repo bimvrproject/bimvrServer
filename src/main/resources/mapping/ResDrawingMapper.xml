@@ -142,8 +142,6 @@
     <include refid="Base_Column_List" />
     from res_drawing
     where
-    model_id = #{modelId,jdbcType=VARCHAR}
-      AND
       project_id = #{projectId,jdbcType=BIGINT}
   </select>
   <!--根据图纸id修改图片名称-->

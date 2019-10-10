@@ -42,7 +42,7 @@ public class PCProjectController {
         Long proid=Long.valueOf(projectid);
         //增加项目
         project.setProjectId(proid);
-        project.setProjectModelAddr("http://39.96.59.142:8080/project/res_picture/0.png");
+        project.setProjectModelAddr("http://36.112.65.110:8080/project/res_picture/0.png");
         project.setProjectStatus(3);
         projectMapper.insertSelective(project);
         //存值在application作用域

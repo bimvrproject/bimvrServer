@@ -81,9 +81,11 @@ public class ShiroConfig {
         //上传zip建筑方法
         filterChainDefinitionMap.put("/"+version+"/Upload/uploadCategory", "anon");
         //上传zip建筑图纸方法
-        filterChainDefinitionMap.put("/"+version+"/Upload/uploadbuildingdrawing", "anon");
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadpicture", "anon");
         //上传zip管道方法
         filterChainDefinitionMap.put("/"+version+"/Upload/uploadpipe", "anon");
+        //上传zip管道图纸方法
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadpipepingmian", "anon");
         //绑定项目
         filterChainDefinitionMap.put("/"+version+"/pcproject/getProject", "anon");
         //此处需要添加一个kickout，上面添加的自定义拦截器才能生效

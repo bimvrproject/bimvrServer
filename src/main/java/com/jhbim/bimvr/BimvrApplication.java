@@ -234,4 +234,18 @@ public class BimvrApplication extends SpringBootServletInitializer {
     public FileUploadUtils fileUploadUtils(){
         return new FileUploadUtils();
     }
+
+    /**
+     * 设置上传压缩文件大小
+     * @return
+     */
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        //文件最大
+        factory.setMaxFileSize("9999999999999KB"); //KB,MB
+        /// 设置总上传数据总大小
+        factory.setMaxRequestSize("9999999999999KB");
+        return factory.createMultipartConfig();
+    }
 }

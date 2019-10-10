@@ -151,7 +151,7 @@
 
   <!--获取projectId-->
   <select id="getProjectId" resultMap="BaseResultMap" parameterType="java.lang.Long">
-      SELECT project_id FROM company_project WHERE company_id = #{companyId,jdbcType=BIGINT}
+      SELECT project_id FROM company_project WHERE company_id = #{companyId,jdbcType=BIGINT} order by id desc
   </select>
   <!--根据projectID去查询-->
   <select id="getProject" resultMap="BaseResultMap" parameterType="java.lang.Long">

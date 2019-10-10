@@ -82,4 +82,108 @@ public class AlipayProperties {
         }
         return null;
     }
+
+    public String getGatewayUrl() {
+        return gatewayUrl;
+    }
+
+    public void setGatewayUrl(String gatewayUrl) {
+        this.gatewayUrl = gatewayUrl;
+    }
+
+    public String getAppid() {
+        return appid;
+    }
+
+    public void setAppid(String appid) {
+        this.appid = appid;
+    }
+
+    public String getAppPrivateKey() {
+        return appPrivateKey;
+    }
+
+    public void setAppPrivateKey(String appPrivateKey) {
+        this.appPrivateKey = appPrivateKey;
+    }
+
+    public String getAlipayPublicKey() {
+        return alipayPublicKey;
+    }
+
+    public void setAlipayPublicKey(String alipayPublicKey) {
+        this.alipayPublicKey = alipayPublicKey;
+    }
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
+    }
+
+    public String getFormate() {
+        return formate;
+    }
+
+    public void setFormate(String formate) {
+        this.formate = formate;
+    }
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
+    }
+
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public void setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
+    }
+
+    public static int getMaxQueryRetry() {
+        return maxQueryRetry;
+    }
+
+    public static void setMaxQueryRetry(int maxQueryRetry) {
+        AlipayProperties.maxQueryRetry = maxQueryRetry;
+    }
+
+    public static long getQueryDuration() {
+        return queryDuration;
+    }
+
+    public static void setQueryDuration(long queryDuration) {
+        AlipayProperties.queryDuration = queryDuration;
+    }
+
+    public static int getMaxCancelRetry() {
+        return maxCancelRetry;
+    }
+
+    public static void setMaxCancelRetry(int maxCancelRetry) {
+        AlipayProperties.maxCancelRetry = maxCancelRetry;
+    }
+
+    public static long getCancelDuration() {
+        return cancelDuration;
+    }
+
+    public static void setCancelDuration(long cancelDuration) {
+        AlipayProperties.cancelDuration = cancelDuration;
+    }
 }

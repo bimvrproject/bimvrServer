@@ -46,9 +46,9 @@ public class UploadController {
             //保存到本地
             fileUploadUtils.saveMultiFile(address, file);
             //服务器的信息
-            Ftp ftpFileUpload = Ftp.getSftpUtil("36.112.65.110",22,"root","jhkj991102");
+            Ftp ftpFileUpload = Ftp.getSftpUtil();
             //保存服务器的路径
-            String IP="/var/lib/tomcat9/webapps/ROOT/";
+            String IP="/project/";
             System.out.println(ModelProjectid+"****************************////////////////////////////////////////////////////*/*/*/*/*");
             if(ModelProjectid==null){
                     project_id=project_ids;
@@ -76,6 +76,7 @@ public class UploadController {
         }
 
     }
+
     /**
      * 建筑模型保存到数据库
      * @param request
@@ -106,12 +107,11 @@ public class UploadController {
         resModel.setModelId("1");       //模型
         resModel.setProjectId(project_id);  //项目id
         resModel.setCompanyId(user.getCompanyId()); //公司id
-        resModel.setUrl("/"+project_id+"/1/model"+"/model.html");       //url地址
+        resModel.setUrl("");       //url地址
         resModelMapper.insertSelective(resModel);
         application.removeAttribute("ModelProject_id");         //删除modelproject里面的项目id
         System.out.println(ModelProjectid+"删除applicationModelProject");
     }
-
 
     /**
      * 上传建筑图纸平面
@@ -124,7 +124,6 @@ public class UploadController {
         ServletContext application =request.getSession().getServletContext();
         Long project_ids= (Long) application.getAttribute("Project_ID");
         Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
-        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
         Long project_id=0L;
         if(ModelProjectid==null){
             project_id=project_ids;
@@ -135,25 +134,12 @@ public class UploadController {
         //先保存在本地
         String address="C:\\Picture";
         try {
-            for(int i=0;i< file.length;i++){
-                ResDrawing drawing=new ResDrawing();
-                drawing.setModelId("1");        //建筑模型
-                drawing.setProjectId(project_id); //项目id
-                drawing.setCompanyId(usrcompanyid);      //公司id
-                drawing.setUrl("/"+project_id+"/1"+"/drawing/"+file[i].getOriginalFilename());  //图纸地址
-                drawing.setDrawName("平面图纸");    //名称
-                drawing.setDrawType(1);     //平面图纸
-                drawingMapper.insertSelective(drawing);
-            }
             //保存到本地
             fileUploadUtils.saveMultiFile(address, file);
-            //项目id
-
             //服务器的信息
-            Ftp ftp = Ftp.getSftpUtil("36.112.65.110",22,"root","jhkj991102");
+            Ftp ftp = Ftp.getSftpUtil();
             //保存服务器的路径
-            String IP="/var/lib/tomcat9/webapps/ROOT/";
-
+            String IP="/project/";
             //创建日期目录
             ftp.upload(IP+project_id,"");
             //当前日期+1表示建筑模型
@@ -174,56 +160,45 @@ public class UploadController {
      * @param file
      * @param request
      */
-    @PostMapping("/uploadpicturelimian")
-    public void uploadpicturelimian(MultipartFile[] file,HttpServletRequest request){
-        //application作用域
-        ServletContext application =request.getSession().getServletContext();
-        Long project_ids= (Long) application.getAttribute("Project_ID");
-        Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
-        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
-        Long project_id=0L;
-        if(ModelProjectid==null){
-            project_id=project_ids;
-        }
-        if(ModelProjectid!=null){
-            project_id=ModelProjectid;
-        }
-        //先保存在本地
-        String address="C:\\Picture";
-        try {
-            for(int i=0;i< file.length;i++){
-                ResDrawing drawing=new ResDrawing();
-                drawing.setModelId("1");        //建筑模型
-                drawing.setProjectId(project_id); //项目id
-                drawing.setCompanyId(usrcompanyid);      //公司id
-                drawing.setUrl("/"+project_id+"/1"+"/drawing/"+file[i].getOriginalFilename());  //图纸地址
-                drawing.setDrawName("立面图纸");    //名称
-                drawing.setDrawType(2);     //平面图纸
-                drawingMapper.insertSelective(drawing);
-            }
-            //保存到本地
-            fileUploadUtils.saveMultiFile(address, file);
-            //项目id
-
-            //服务器的信息
-            Ftp ftp = Ftp.getSftpUtil("36.112.65.110",22,"root","jhkj991102");
-            //保存服务器的路径
-            String IP="/var/lib/tomcat9/webapps/ROOT/";
-
-            //创建日期目录
-            ftp.upload(IP+project_id,"");
-            //当前日期+1表示建筑模型
-            String one=project_id+"/1";
-            String drawing1=project_id+"/1"+"/drawing";     //图片
-            //创建日期目录下的1,
-            ftp.upload(IP+one,"");
-            ftp.upload(IP+drawing1,"");
-            //增加建筑模型
-            ftp.upload(IP+drawing1,address);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @PostMapping("/uploadpicturelimian")
+//    public void uploadpicturelimian(MultipartFile[] file,HttpServletRequest request){
+//        //application作用域
+//        ServletContext application =request.getSession().getServletContext();
+//        Long project_ids= (Long) application.getAttribute("Project_ID");
+//        Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
+//        Long project_id=0L;
+//        if(ModelProjectid==null){
+//            project_id=project_ids;
+//        }
+//        if(ModelProjectid!=null){
+//            project_id=ModelProjectid;
+//        }
+//        //先保存在本地
+//        String address="C:\\Picture";
+//        try {
+//            //保存到本地
+//            fileUploadUtils.saveMultiFile(address, file);
+//            //项目id
+//
+//            //服务器的信息
+//            Ftp ftp = Ftp.getSftpUtil();
+//            //保存服务器的路径
+//            String IP="/var/lib/tomcat9/webapps/ROOT/";
+//
+//            //创建日期目录
+//            ftp.upload(IP+project_id,"");
+//            //当前日期+1表示建筑模型
+//            String one=project_id+"/1";
+//            String drawing1=project_id+"/1"+"/drawing";     //图片
+//            //创建日期目录下的1,
+//            ftp.upload(IP+one,"");
+//            ftp.upload(IP+drawing1,"");
+//            //增加建筑模型
+//            ftp.upload(IP+drawing1,address);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     /**
      * 管道模型上传到服务器
      * @param file
@@ -243,9 +218,9 @@ public class UploadController {
             //保存到本地
             fileUploadUtils.saveMultiFile(address, file);
             //服务器的信息
-            Ftp ftpFileUpload = Ftp.getSftpUtil("36.112.65.110",22,"root","jhkj991102");
+            Ftp ftpFileUpload = Ftp.getSftpUtil();
             //保存服务器的路径
-            String IP="/var/lib/tomcat9/webapps/ROOT/";
+            String IP="/project/";
             if(ModelProjectid==null){
                 project_id=project_ids;
                 System.out.println("等于null----"+project_id);
@@ -289,7 +264,7 @@ public class UploadController {
         resModel.setModelId("2");       //模型
         resModel.setProjectId(modelid);  //项目id
         resModel.setCompanyId(user.getCompanyId()); //公司id
-        resModel.setUrl("/"+modelid+"/2/model/model.html");       //url地址
+        resModel.setUrl("");       //url地址
         resModelMapper.insertSelective(resModel);
         application.removeAttribute("ModelProject_id"); //删除modelproject里面的项目id
         System.out.println(modelid+"删除applicationModelProject");
@@ -336,9 +311,9 @@ public class UploadController {
             //保存到本地
             fileUploadUtils.saveMultiFile(address, file);
             //服务器的信息
-            Ftp ftpFileUpload = Ftp.getSftpUtil("36.112.65.110",22,"root","jhkj991102");
+            Ftp ftpFileUpload = Ftp.getSftpUtil();
             //保存服务器的路径
-            String IP="/var/lib/tomcat9/webapps/ROOT/";
+            String IP="/project/";
 
             //创建日期目录
             ftpFileUpload.upload(IP+project_id,"");
@@ -360,59 +335,59 @@ public class UploadController {
      * @param file
      * @param request
      */
-    @PostMapping("/uploadpipelimian")
-    public void uploadpipelimian(MultipartFile[] file,HttpServletRequest request){
-        //application作用域
-        ServletContext application =request.getSession().getServletContext();
-        //项目id
-        Long project_ids= (Long) application.getAttribute("Project_ID");
-        Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
-        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
-        Long project_id=0L;
-        if(ModelProjectid==null){
-            project_id=project_ids;
-            System.out.println("等于null----"+project_id);
-        }
-        if(ModelProjectid!=null){
-            project_id=ModelProjectid;
-            System.out.println("不等于null-----"+project_id);
-        }
-        //先保存在本地
-        String address="C:\\Picture";
-
-        try {
-
-            for(int i=0;i< file.length;i++){
-                ResDrawing drawing=new ResDrawing();
-                drawing.setModelId("2");        //建筑模型
-                drawing.setProjectId(project_id); //项目id
-                drawing.setCompanyId(usrcompanyid);      //公司id
-                drawing.setUrl("/"+project_id+"/2"+"/drawing/"+file[i].getOriginalFilename());  //图纸地址
-                drawing.setDrawName("平面图纸");    //名称
-                drawing.setDrawType(2);     //平面图纸
-                drawingMapper.insertSelective(drawing);
-            }
-            //保存到本地
-            fileUploadUtils.saveMultiFile(address, file);
-            //服务器的信息
-            Ftp ftpFileUpload = Ftp.getSftpUtil("36.112.65.110",22,"root","jhkj991102");
-            //保存服务器的路径
-            String IP="/var/lib/tomcat9/webapps/ROOT/";
-
-            //创建日期目录
-            ftpFileUpload.upload(IP+project_id,"");
-            //当前日期+1表示建筑模型
-            String one=project_id+"/2";
-            String drawing1=project_id+"/2"+"/drawing";     //图片
-            //创建日期目录下的1,
-            ftpFileUpload.upload(IP+one,"");
-            ftpFileUpload.upload(IP+drawing1,"");
-            //增加建筑模型
-            ftpFileUpload.upload(IP+drawing1,address);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @PostMapping("/uploadpipelimian")
+//    public void uploadpipelimian(MultipartFile[] file,HttpServletRequest request){
+//        //application作用域
+//        ServletContext application =request.getSession().getServletContext();
+//        //项目id
+//        Long project_ids= (Long) application.getAttribute("Project_ID");
+//        Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
+//        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+//        Long project_id=0L;
+//        if(ModelProjectid==null){
+//            project_id=project_ids;
+//            System.out.println("等于null----"+project_id);
+//        }
+//        if(ModelProjectid!=null){
+//            project_id=ModelProjectid;
+//            System.out.println("不等于null-----"+project_id);
+//        }
+//        //先保存在本地
+//        String address="C:\\Picture";
+//
+//        try {
+//
+//            for(int i=0;i< file.length;i++){
+//                ResDrawing drawing=new ResDrawing();
+//                drawing.setModelId("2");        //建筑模型
+//                drawing.setProjectId(project_id); //项目id
+//                drawing.setCompanyId(usrcompanyid);      //公司id
+//                drawing.setUrl("/"+project_id+"/2"+"/drawing/"+file[i].getOriginalFilename());  //图纸地址
+//                drawing.setDrawName("平面图纸");    //名称
+//                drawing.setDrawType(2);     //平面图纸
+//                drawingMapper.insertSelective(drawing);
+//            }
+//            //保存到本地
+//            fileUploadUtils.saveMultiFile(address, file);
+//            //服务器的信息
+//            Ftp ftpFileUpload = Ftp.getSftpUtil();
+//            //保存服务器的路径
+//            String IP="/var/lib/tomcat9/webapps/ROOT/";
+//
+//            //创建日期目录
+//            ftpFileUpload.upload(IP+project_id,"");
+//            //当前日期+1表示建筑模型
+//            String one=project_id+"/2";
+//            String drawing1=project_id+"/2"+"/drawing";     //图片
+//            //创建日期目录下的1,
+//            ftpFileUpload.upload(IP+one,"");
+//            ftpFileUpload.upload(IP+drawing1,"");
+//            //增加建筑模型
+//            ftpFileUpload.upload(IP+drawing1,address);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
