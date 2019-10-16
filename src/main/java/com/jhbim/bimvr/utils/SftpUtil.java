@@ -8,10 +8,11 @@ import com.jcraft.jsch.SftpProgressMonitor;
 import java.io.File;
 
 public class SftpUtil {
-    private SftpUtil() {
+     private SftpUtil() {
     }
-    public static void uploadFilesToServer(String srcPath, String dst) throws Exception {
-        ChannelSftp sftp = upload(srcPath, dst);
+
+    public static void uploadFilesToServer(String srcPath, String dst, SftpProgressMonitor monitor) throws Exception {
+        ChannelSftp sftp = upload(srcPath, dst, monitor);
         if (sftp != null) {
             sftp.quit();
             sftp.disconnect();
@@ -19,14 +20,16 @@ public class SftpUtil {
         }
         ChannelSftpSingleton.getInstance().closeChannel();
     }
-    private static ChannelSftp upload(String path, String dst) throws SftpException {
+
+
+    private static ChannelSftp upload(String path, String dst, SftpProgressMonitor monitor) throws SftpException {
         File file = new File(path);
         if (!file.exists()) {
             return null;
         }
         ChannelSftp chSftp = null;
         try {
-             chSftp = ChannelSftpSingleton.getInstance().getChannelSftp();
+            chSftp = ChannelSftpSingleton.getInstance().getChannelSftp();
         } catch (JSchException e) {
             e.printStackTrace();
         }
@@ -40,29 +43,22 @@ public class SftpUtil {
             }
             for (File f : files) {
                 String fp = f.getAbsolutePath();
+                System.out.println(fp);
                 if (f.isDirectory()) {
                     String mkdir = dst + "/" + f.getName();
-                    System.out.println(mkdir);
                     try {
                         chSftp.cd(mkdir);
                     } catch (Exception e) {
-                        try {
-                            System.out.println("创建文件夹");
-                            System.out.println(mkdir);
-                            chSftp.mkdir(mkdir);
-                        } catch (SftpException e1) {
-                            e1.printStackTrace();
-                        }
+                        chSftp.mkdir(mkdir);
                     }
-
-                    upload(fp, mkdir);
+                    upload(fp, mkdir, monitor);
                 } else {
-                    chSftp.put(fp, dst, ChannelSftp.OVERWRITE);
+                    chSftp.put(fp, dst, monitor, ChannelSftp.OVERWRITE);
                 }
             }
         } else {
             String fp = file.getAbsolutePath();
-            chSftp.put(fp, dst, ChannelSftp.OVERWRITE);
+            chSftp.put(fp, dst, monitor, ChannelSftp.OVERWRITE);
         }
         return chSftp;
     }

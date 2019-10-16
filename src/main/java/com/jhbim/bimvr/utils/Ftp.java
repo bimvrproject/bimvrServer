@@ -154,6 +154,7 @@ public class Ftp {
             });
             for (File file : subfiles) {
                 if (file.isDirectory()) {
+
                     getFiles(file.getAbsolutePath(), files);
                 } else {
                     files.add(file);

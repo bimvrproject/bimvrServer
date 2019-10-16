@@ -4,6 +4,7 @@ import com.jhbim.bimvr.dao.entity.pojo.Project;
 import com.jhbim.bimvr.dao.entity.pojo.User;
 import com.jhbim.bimvr.dao.mapper.ProjectMapper;
 import com.jhbim.bimvr.service.IProjectService;
+import com.jhbim.bimvr.utils.ShiroUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,11 @@ public class ProjectServiceImpl implements IProjectService {
     * */
     @Override
     public List<Project> getProject(User username) {
+        //获取用户的信息
+        User user= ShiroUtil.getUser();
+        System.out.println(user.getCompanyId()+"..........");
         Long companyId = username.getCompanyId();
-        List<Project> projectIdList =  projectMapper.getProjectId(companyId);
+        List<Project> projectIdList =  projectMapper.getProjectId(user.getCompanyId());
         List<Project> projectList = new ArrayList<>();
         for (int i = 0; i < projectIdList.size(); i++) {
             Long projectId = projectIdList.get(i).getProjectId();

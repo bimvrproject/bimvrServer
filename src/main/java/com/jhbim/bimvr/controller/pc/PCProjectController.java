@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/${version}/pcproject")
 public class PCProjectController {
@@ -38,28 +38,42 @@ public class PCProjectController {
     public Result addproject(@RequestBody Project project ,HttpServletRequest request){
         //获取用户的信息
         User user= ShiroUtil.getUser();
-        String projectid=user.getCompanyId()+idWorker.nextId()+"";
-        Long proid=Long.valueOf(projectid);
         //增加项目
-        project.setProjectId(proid);
-        project.setProjectModelAddr("http://36.112.65.110:8080/project/res_picture/0.png");
         project.setProjectStatus(3);
-        projectMapper.insertSelective(project);
+        projectMapper.updateByPrimaryKeySelective(project);
         //存值在application作用域
         ServletContext application =request.getSession().getServletContext();
         //保存项目的id
         application.setAttribute("Project_ID",project.getProjectId());
         //保存当前登录人员所在的公司id
         application.setAttribute("User_CompanyID",user.getCompanyId());
-        System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"+application.getAttribute("ModelProject_id"));
         application.removeAttribute("ModelProject_id");
-        System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+application.getAttribute("ModelProject_id"));
         //增加公司和项目的记录
+        CompanyProject companyProject=new CompanyProject();
+        companyProject.setCreateTime(project.getStartTime());
+        companyProject.setUpdateTime(project.getStartTime());
+        companyProject.setProjectId(project.getProjectId());
+        companyProjectMapper.updateprojectid(companyProject);
+        return new Result(ResultStatusCode.OK,"项目增加成功");
+    }
+
+    /**
+     * 点击+号图片新增id
+     * @return
+     */
+    @PostMapping("/addprojects")
+    public Result addprojects(){
+        //获取用户的信息
+        User user= ShiroUtil.getUser();
+        String projectid=user.getCompanyId()+idWorker.nextId()+"";
+        Long proid=Long.valueOf(projectid);
+        Project project=new Project();
+        project.setProjectId(proid);
+        project.setProjectModelAddr("http://36.112.65.110:8080/project/res_picture/0.png");
+        projectMapper.insertSelective(project);
         CompanyProject companyProject=new CompanyProject();
         companyProject.setCompanyId(user.getCompanyId());
         companyProject.setProjectId(proid);
-        companyProject.setCreateTime(project.getStartTime());
-        companyProject.setUpdateTime(project.getStartTime());
         companyProjectMapper.insert(companyProject);
         return new Result(ResultStatusCode.OK,"项目增加成功");
     }

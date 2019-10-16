@@ -88,6 +88,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/"+version+"/Upload/uploadpipepingmian", "anon");
         //绑定项目
         filterChainDefinitionMap.put("/"+version+"/pcproject/getProject", "anon");
+        //上传建筑清单
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadjzprice", "anon");
+        //上传管道清单
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadgxprice", "anon");
         //此处需要添加一个kickout，上面添加的自定义拦截器才能生效
         filterChainDefinitionMap.put("/"+version+"/**", "authc,kickout");// 表示需要认证才可以访问
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

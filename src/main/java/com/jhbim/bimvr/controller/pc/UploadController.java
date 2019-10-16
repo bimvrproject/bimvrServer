@@ -1,9 +1,13 @@
 package com.jhbim.bimvr.controller.pc;
 import com.jhbim.bimvr.dao.entity.pojo.ResDrawing;
+import com.jhbim.bimvr.dao.entity.pojo.ResMeterial;
 import com.jhbim.bimvr.dao.entity.pojo.ResModel;
 import com.jhbim.bimvr.dao.entity.pojo.User;
+import com.jhbim.bimvr.dao.entity.vo.Result;
 import com.jhbim.bimvr.dao.mapper.ResDrawingMapper;
+import com.jhbim.bimvr.dao.mapper.ResMeterialMapper;
 import com.jhbim.bimvr.dao.mapper.ResModelMapper;
+import com.jhbim.bimvr.system.enums.ResultStatusCode;
 import com.jhbim.bimvr.utils.FileUploadUtils;
 import com.jhbim.bimvr.utils.Ftp;
 import com.jhbim.bimvr.utils.ShiroUtil;
@@ -17,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/${version}/Upload")
 public class UploadController {
@@ -27,6 +31,8 @@ public class UploadController {
     ResModelMapper resModelMapper;
     @Resource
     ResDrawingMapper drawingMapper;
+    @Resource
+    ResMeterialMapper meterialMapper;
 
     /**
      * 上传建筑模型到服务器
@@ -49,7 +55,6 @@ public class UploadController {
             Ftp ftpFileUpload = Ftp.getSftpUtil();
             //保存服务器的路径
             String IP="/project/";
-            System.out.println(ModelProjectid+"****************************////////////////////////////////////////////////////*/*/*/*/*");
             if(ModelProjectid==null){
                     project_id=project_ids;
                 System.out.println("等于null----"+project_id);
@@ -58,7 +63,6 @@ public class UploadController {
                 project_id=ModelProjectid;
                 System.out.println("不等于null-----"+project_id);
             }
-            System.out.println("建筑模型上传服务器的id*************************"+project_id);
             //创建日期目录
             ftpFileUpload.upload(IP+project_id,"");
             //当前日期+1表示建筑模型
@@ -388,6 +392,126 @@ public class UploadController {
 //            e.printStackTrace();
 //        }
 //    }
+
+    /**
+     * 上传建筑清单
+     * @param file
+     * @param request
+     */
+    @PostMapping("/uploadjzprice")
+    public void uploadjzprice(MultipartFile[] file,HttpServletRequest request){
+        Long project_id=0L;
+        //先保存在本地
+        String address="C:\\Building";
+        //application作用域
+        ServletContext application =request.getSession().getServletContext();
+        //登录人公司id
+        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+        //项目id
+        Long project_ids= (Long) application.getAttribute("Project_ID");
+        Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
+        try {
+            //保存到本地
+            fileUploadUtils.saveMultiFile(address, file);
+            //服务器的信息
+            Ftp ftpFileUpload = Ftp.getSftpUtil();
+            //保存服务器的路径
+            String IP="/project/";
+            if(ModelProjectid==null){
+                project_id=project_ids;
+                System.out.println("等于null----"+project_id);
+            }
+            if(ModelProjectid!=null){
+                project_id=ModelProjectid;
+                System.out.println("不等于null-----"+project_id);
+            }
+
+            //创建日期目录
+            ftpFileUpload.upload(IP+project_id,"");
+            //当前日期+1表示建筑模型
+            String one=project_id+"/1";
+            String price1=project_id+"/1"+"/price";     //造价
+            //创建日期目录下的1,
+            ftpFileUpload.upload(IP+one,"");
+            ftpFileUpload.upload(IP+price1,"");
+            //增加建筑模型
+            ftpFileUpload.upload(IP+price1,address);
+
+            for (int i = 0; i < file.length; i++) {
+                String url=IP+price1+file[i].getOriginalFilename();
+                System.out.println(url);
+                ResMeterial meterial=new ResMeterial();
+                meterial.setCompanyId(usrcompanyid);
+                meterial.setProjectId(project_id);
+                meterial.setModelId("1");
+                meterial.setUrl(url);
+                meterialMapper.insertSelective(meterial);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 上传管道清单
+     * @param file
+     * @param request
+     */
+    @PostMapping("/uploadgxprice")
+    public void uploadgxprice(MultipartFile[] file,HttpServletRequest request){
+        Long project_id=0L;
+        //先保存在本地
+        String address="C:\\Building";
+        //application作用域
+        ServletContext application =request.getSession().getServletContext();
+        //登录人公司id
+        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+        //项目id
+        Long project_ids= (Long) application.getAttribute("Project_ID");
+        Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
+        try {
+            for (int i = 0; i < file.length; i++) {
+                System.out.println(file[i].getOriginalFilename());
+            }
+            //保存到本地
+            fileUploadUtils.saveMultiFile(address, file);
+            //服务器的信息
+            Ftp ftpFileUpload = Ftp.getSftpUtil();
+            //保存服务器的路径
+            String IP="/project/";
+            if(ModelProjectid==null){
+                project_id=project_ids;
+                System.out.println("等于null----"+project_id);
+            }
+            if(ModelProjectid!=null){
+                project_id=ModelProjectid;
+                System.out.println("不等于null-----"+project_id);
+            }
+            //创建日期目录
+            ftpFileUpload.upload(IP+project_id,"");
+            //当前日期+1表示建筑模型
+            String one=project_id+"/2";
+            String price1=project_id+"/2"+"/price";     //造价
+            //创建日期目录下的1,
+            ftpFileUpload.upload(IP+one,"");
+            ftpFileUpload.upload(IP+price1,"");
+            //增加建筑模型
+            ftpFileUpload.upload(IP+price1,address);
+
+            for (int i = 0; i < file.length; i++) {
+                String url=IP+price1+file[i].getOriginalFilename();
+                System.out.println(url);
+                ResMeterial meterial=new ResMeterial();
+                meterial.setCompanyId(usrcompanyid);
+                meterial.setProjectId(project_id);
+                meterial.setModelId("2");
+                meterial.setUrl(url);
+                meterialMapper.insertSelective(meterial);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

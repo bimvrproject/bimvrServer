@@ -19,4 +19,6 @@ public interface CompanyProjectMapper {
 
     //根据项目id删除该行内容
     int deleteprojectid(Long project);
+    //根据项目id修改公司项目表
+    int  updateprojectid(CompanyProject record);
 }

@@ -31,11 +31,12 @@ public class ChannelSftpSingleton {
             session.disconnect();
         }
         System.out.println("disconnected SFTP successfully!");
-    }private ChannelSftp getChannel() throws JSchException {
-        String host = "36.112.65.110";
-        int port = 22;
-        String userName = "root";
-        String password = "jhkj991102";
+    }
+    private ChannelSftp getChannel() throws JSchException {
+        String host = "192.168.6.145";
+        int port = 26;
+        String userName = "Administrator";
+        String password = "Jhkj991102";
         // 创建JSch对象
         JSch jsch = new JSch();
         // 根据用户名，主机ip，端口获取一个Session对象
