@@ -29,7 +29,6 @@ public class ProjectServiceImpl implements IProjectService {
     public List<Project> getProject(User username) {
         //获取用户的信息
         User user= ShiroUtil.getUser();
-        System.out.println(user.getCompanyId()+"..........");
         Long companyId = username.getCompanyId();
         List<Project> projectIdList =  projectMapper.getProjectId(user.getCompanyId());
         List<Project> projectList = new ArrayList<>();
