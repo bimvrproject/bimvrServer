@@ -39,7 +39,7 @@ public class UserController {
     @RequestMapping("/getUserByToken")
     public Result getUser(){
         User user = ShiroUtil.getUser();
-        user.getCompanyId();//测试
+//        user.getCompanyId();//测试
         return  new Result(ResultStatusCode.OK,user);
     }
 

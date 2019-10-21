@@ -28,7 +28,7 @@ public class PCProjectController {
     @Resource
     ResModelMapper resModelMapper;
     @Resource //随机数
-    IdWorker idWorker;
+            IdWorker idWorker;
     /**
      * 增加项目
      * @param project

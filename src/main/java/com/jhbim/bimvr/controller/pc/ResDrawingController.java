@@ -1,9 +1,11 @@
 package com.jhbim.bimvr.controller.pc;
 
 import com.jhbim.bimvr.dao.entity.pojo.ResDrawing;
+import com.jhbim.bimvr.dao.entity.pojo.User;
 import com.jhbim.bimvr.dao.entity.vo.Result;
 import com.jhbim.bimvr.dao.mapper.ResDrawingMapper;
 import com.jhbim.bimvr.system.enums.ResultStatusCode;
+import com.jhbim.bimvr.utils.ShiroUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -51,10 +53,13 @@ public class ResDrawingController {
      * @param projectid 项目id
      * @return
      */
-    @GetMapping("/getprojectids/{projectid}")
-    public Result getprojectids(@PathVariable Long projectid){
+    @GetMapping("/getprojectids/{modelid}/{projectid}")
+    public Result getprojectids(@PathVariable String modelid, @PathVariable Long projectid){
+        User user= ShiroUtil.getUser();
         ResDrawing drawing=new ResDrawing();
+        drawing.setModelId(modelid);
         drawing.setProjectId(projectid);
+        drawing.setCompanyId(user.getCompanyId());
         return new Result(ResultStatusCode.OK,drawingMapper.getprojectids(drawing));
     }
 

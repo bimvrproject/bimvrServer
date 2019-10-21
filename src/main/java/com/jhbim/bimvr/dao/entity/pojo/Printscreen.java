@@ -6,19 +6,13 @@ public class Printscreen implements Serializable {
 
     private Long PrintscreenId;
 
-    private Long PrintscreenUserid;
+    private String PrintscreenUser;
 
     private String images;
 
-    private Long projectId;
+    private String projectId;
 
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
+    private Long modelId;
 
     public Long getPrintscreenId() {
         return PrintscreenId;
@@ -28,12 +22,12 @@ public class Printscreen implements Serializable {
         PrintscreenId = printscreenId;
     }
 
-    public Long getPrintscreenUserid() {
-        return PrintscreenUserid;
+    public String getPrintscreenUser() {
+        return PrintscreenUser;
     }
 
-    public void setPrintscreenUserid(Long printscreenUserid) {
-        PrintscreenUserid = printscreenUserid;
+    public void setPrintscreenUser(String printscreenUser) {
+        PrintscreenUser = printscreenUser;
     }
 
     public String getImages() {
@@ -42,5 +36,21 @@ public class Printscreen implements Serializable {
 
     public void setImages(String images) {
         this.images = images;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public Long getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
     }
 }

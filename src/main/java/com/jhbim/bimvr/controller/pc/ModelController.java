@@ -3,6 +3,7 @@ package com.jhbim.bimvr.controller.pc;
 import com.jhbim.bimvr.dao.entity.pojo.Printscreen;
 import com.jhbim.bimvr.dao.entity.pojo.ResModel;
 import com.jhbim.bimvr.dao.entity.pojo.User;
+import com.jhbim.bimvr.dao.entity.vo.PrintscreenVo;
 import com.jhbim.bimvr.dao.entity.vo.Result;
 import com.jhbim.bimvr.dao.mapper.PrintscreenMapper;
 import com.jhbim.bimvr.dao.mapper.ResModelMapper;
@@ -30,6 +31,11 @@ public class ModelController {
     @Resource
     PrintscreenMapper printscreenMapper;
 
+    /**
+     * 截图
+     * @param request
+     * @return
+     */
     @GetMapping("/OpenCmd")
     public Result OpenCmd(HttpServletRequest request){
         User user= ShiroUtil.getUser();
@@ -39,15 +45,6 @@ public class ModelController {
         Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
 
         try {
-            File file=new File("C:\\Printscreen");
-            if(!file.exists()){
-                file.mkdirs();
-            }
-            String address="C:\\Printscreen";
-            String images=UUID.randomUUID().toString()+".jpg";
-            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe C:\\Printscreen\\"+ images);
-
-
             Long project_id=0L;
             if(ModelProjectid==null){
                 project_id=project_ids;
@@ -57,23 +54,21 @@ public class ModelController {
                 project_id=ModelProjectid;
                 System.out.println("不等于null-----"+project_id);
             }
-
-            //服务器的信息
-            Ftp ftpFileUpload = Ftp.getSftpUtil();
-            //保存服务器的路径
-            String IP="/project/";
-            ftpFileUpload.upload(IP+project_id,"");
-            String one=project_id+"/1";
-            String picture=one+"/Printscreen";     //图片
-            ftpFileUpload.upload(IP+one,"");
-            ftpFileUpload.upload(IP+picture,"");
-            ftpFileUpload.upload(IP+picture,address);
+            String address="E:/tomcat9/apache-tomcat-9.0.26-windows-x64/apache-tomcat-9.0.26/webapps/ROOT/Printscreen/";
+            File file=new File(address);
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+            String images= UUID.randomUUID().toString()+".jpg";
+            String tupian="Printscreen/"+project_id+"/"+ images;
+            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe E:/tomcat9/apache-tomcat-9.0.26-windows-x64/apache-tomcat-9.0.26/webapps/ROOT/"+tupian);
 
             //保存到截图表里
             Printscreen printscreen=new Printscreen();
-            printscreen.setPrintscreenUserid(user.getCompanyId());
-            printscreen.setImages(images);
-            printscreen.setProjectId(project_id);
+            printscreen.setPrintscreenUser(user.getPhone());
+            printscreen.setImages(tupian);
+            printscreen.setProjectId(String.valueOf(project_id));
+            printscreen.setModelId(1L);
             printscreenMapper.insert(printscreen);
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,6 +76,24 @@ public class ModelController {
             e.printStackTrace();
         }
         return new Result(ResultStatusCode.OK,"截图成功");
+    }
+
+    /**
+     * 查询截图表展示到页面
+     * @param projectId
+     * @return
+     */
+    @GetMapping("/selectPrintscreen/{projectId}")
+    public Result selectPrintscreen(@PathVariable String projectId){
+        User user= ShiroUtil.getUser();
+        Printscreen printscreen=new Printscreen();
+        printscreen.setPrintscreenUser(user.getPhone());
+        printscreen.setProjectId(projectId);
+        printscreen.setModelId(1L);
+        List<Printscreen> printscreenList=printscreenMapper.selectproject(printscreen);
+        PrintscreenVo printscreenVo=new PrintscreenVo();
+        printscreenVo.setPrintscreenslist(printscreenList);
+        return new Result(ResultStatusCode.OK,printscreenVo );
     }
     /**
      * 增加模型
@@ -113,15 +126,15 @@ public class ModelController {
     public Result selectprojectid(@PathVariable(value = "modelid") String modelid, @PathVariable(value = "projectid") Long projectid, HttpServletRequest request, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         User user = ShiroUtil.getUser();
-            //存储指定项目的id
-            ServletContext application=request.getSession().getServletContext();
-             application.setAttribute("ModelProject_id",projectid);
-             System.out.println("application"+application.getAttribute("ModelProject_id"));
-             ResModel resModel=new ResModel();
-             resModel.setModelId(modelid);
-             resModel.setProjectId(projectid);
-             resModel.setCompanyId(user.getCompanyId());
-            ResModel  resM=resModelMapper.getOneRes(resModel);
+        //存储指定项目的id
+        ServletContext application=request.getSession().getServletContext();
+        application.setAttribute("ModelProject_id",projectid);
+        System.out.println("application"+application.getAttribute("ModelProject_id"));
+        ResModel resModel=new ResModel();
+        resModel.setModelId(modelid);
+        resModel.setProjectId(projectid);
+        resModel.setCompanyId(user.getCompanyId());
+        ResModel  resM=resModelMapper.getOneRes(resModel);
         return new Result(ResultStatusCode.OK,resM);
     }
 

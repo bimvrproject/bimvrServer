@@ -18,4 +18,15 @@
         insert into Printscreen (Printscreen_id, Printscreen_userid, images,project_id)
         values (#{PrintscreenId,jdbcType=BIGINT}, #{PrintscreenUserid,jdbcType=BIGINT}, #{images,jdbcType=VARCHAR},#{projectId,jdbcType=BIGINT})
     </insert>
+    <select id="selectproject" resultMap="BaseResultMap" parameterType="com.jhbim.bimvr.dao.entity.pojo.Printscreen">
+        select
+        <include refid="Base_Column_List" />
+        from printscreen
+        where
+        model_id = #{modelId,jdbcType=BIGINT}
+        and
+        project_id = #{projectId,jdbcType=VARCHAR}
+        and
+        Printscreen_user = #{PrintscreenUser,jdbcType=VARCHAR}
+    </select>
 </mapper>
