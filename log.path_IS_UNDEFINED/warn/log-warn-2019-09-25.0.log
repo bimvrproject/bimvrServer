@@ -1,4 +1,0 @@
-2019-09-25 14:12:56.479 [Thread-20] WARN  o.s.c.a.ClassPathScanningCandidateComponentProvider - No MyBatis mapper was found in '[com.jhbim.bimvr.dao.mapper]' package. Please check your configuration.
-2019-09-25 14:17:30.559 [Thread-20] WARN  o.s.c.a.ClassPathScanningCandidateComponentProvider - No MyBatis mapper was found in '[com.jhbim.bimvr.dao.mapper]' package. Please check your configuration.
-2019-09-25 14:22:01.118 [http-nio-9090-exec-2] WARN  o.s.c.a.ClassPathScanningCandidateComponentProvider - No MyBatis mapper was found in '[com.jhbim.bimvr.dao.mapper]' package. Please check your configuration.
-2019-09-25 17:49:12.099 [http-nio-9090-exec-2] WARN  o.s.c.a.ClassPathScanningCandidateComponentProvider - No MyBatis mapper was found in '[com.jhbim.bimvr.dao.mapper]' package. Please check your configuration.
