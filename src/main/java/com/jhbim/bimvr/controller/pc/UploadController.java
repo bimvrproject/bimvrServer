@@ -56,7 +56,7 @@ public class UploadController {
             //保存服务器的路径
             String IP="/project/";
             if(ModelProjectid==null){
-                project_id=project_ids;
+                    project_id=project_ids;
                 System.out.println("等于null----"+project_id);
             }
             if(ModelProjectid!=null){
@@ -128,7 +128,6 @@ public class UploadController {
         ServletContext application =request.getSession().getServletContext();
         Long project_ids= (Long) application.getAttribute("Project_ID");
         Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
-        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
         Long project_id=0L;
         if(ModelProjectid==null){
             project_id=project_ids;
@@ -139,16 +138,6 @@ public class UploadController {
         //先保存在本地
         String address="C:\\Picture";
         try {
-            for(int i=0;i< file.length;i++){
-                ResDrawing drawing=new ResDrawing();
-                drawing.setModelId("1");        //建筑模型
-                drawing.setProjectId(project_id); //项目id
-                drawing.setCompanyId(usrcompanyid);      //公司id
-                drawing.setUrl("/"+project_id+"/1"+"/drawing/"+file[i].getOriginalFilename());  //图纸地址
-                drawing.setDrawName("平面图纸");    //名称
-                drawing.setDrawType(1);     //平面图纸
-                drawingMapper.insertSelective(drawing);
-            }
             //保存到本地
             fileUploadUtils.saveMultiFile(address, file);
             //服务器的信息
@@ -441,7 +430,7 @@ public class UploadController {
             ftpFileUpload.upload(IP+project_id,"");
             //当前日期+1表示建筑模型
             String one=project_id+"/1";
-            String price1=project_id+"/1"+"/price/";     //造价
+            String price1=project_id+"/1"+"/price";     //造价
             //创建日期目录下的1,
             ftpFileUpload.upload(IP+one,"");
             ftpFileUpload.upload(IP+price1,"");
@@ -502,7 +491,7 @@ public class UploadController {
             ftpFileUpload.upload(IP+project_id,"");
             //当前日期+1表示建筑模型
             String one=project_id+"/2";
-            String price1=project_id+"/2"+"/price/";     //造价
+            String price1=project_id+"/2"+"/price";     //造价
             //创建日期目录下的1,
             ftpFileUpload.upload(IP+one,"");
             ftpFileUpload.upload(IP+price1,"");

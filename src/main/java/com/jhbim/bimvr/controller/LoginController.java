@@ -48,7 +48,12 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/login")
-    public Result login(String username, String password){
+    public Result login(String username, String password,HttpServletRequest request){
+        User user = userMapper.getByPhone(username);
+        ServletContext application=request.getSession().getServletContext();
+        application.setAttribute("User_CompanyId",user.getCompanyId());
+        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+        System.out.println(usrcompanyid);
         UserToken token = new UserToken(LoginType.USER_PASSWORD, username, password);
         return shiroLogin(token);
     }
@@ -219,6 +224,7 @@ public class LoginController {
                 ServletContext application=request.getSession().getServletContext();
                 application.setAttribute("User_CompanyId",user.getCompanyId());
                 Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+                System.out.println(usrcompanyid+"789//");
             }
         }
         return result;
