@@ -11,6 +11,7 @@ import com.jhbim.bimvr.system.enums.ResultStatusCode;
 import com.jhbim.bimvr.system.shiro.LoginType;
 import com.jhbim.bimvr.system.shiro.SMSConfig;
 import com.jhbim.bimvr.system.shiro.UserToken;
+import com.jhbim.bimvr.utils.MD5Util;
 import com.jhbim.bimvr.utils.ShiroUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -21,10 +22,14 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.misc.BASE64Encoder;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -65,6 +70,12 @@ public class LoginController {
         UserToken token = new UserToken(LoginType.USER_PHONE, mobile, random);
         return shiroLogin(token);
     }
+
+    /**
+     * 手机验证码注册
+     * @param mobile
+     * @return
+     */
     @RequestMapping("RegisterphoneLogin")
     public Result RegisterphoneLogin(String mobile){
         String random= RandomStringUtils.randomNumeric(6);
@@ -144,10 +155,10 @@ public class LoginController {
      */
     @RequestMapping("/register")
     public Result register(String phone){
-            User user = userMapper.getByPhone(phone);
-            if(user!=null){
-                return new Result(ResultStatusCode.FAIL, user);
-            }
+        User user = userMapper.getByPhone(phone);
+        if(user!=null){
+            return new Result(ResultStatusCode.FAIL, user);
+        }
         return null;
     }
 
@@ -158,7 +169,7 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/RegistercheckSmsCode")
-    public Result checkSmsCode(String smsCode, String phone){
+    public Result checkSmsCode(String smsCode, String phone,String pwd){
         Result result = new Result();
         if(redisTemplate.opsForValue().get(phone)==null){
             result.setCode(1);
@@ -172,7 +183,10 @@ public class LoginController {
                 result.setCode(0);
                 result.setMsg("成功");
                 User user=new User();
+                user.setCompanyId(1L);
+                user.setRoleId(3L);
                 user.setPhone(phone);
+                user.setPassword(MD5Util.encrypt(pwd));
                 userMapper.insertSelective(user);
                 return new Result(ResultStatusCode.OK,"保存成功");
             }
@@ -205,8 +219,6 @@ public class LoginController {
                 ServletContext application=request.getSession().getServletContext();
                 application.setAttribute("User_CompanyId",user.getCompanyId());
                 Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
-                System.out.println(usrcompanyid+"-userCompanyid");
-                System.out.println(user.getCompanyId()+"-userCompanyid");
             }
         }
         return result;

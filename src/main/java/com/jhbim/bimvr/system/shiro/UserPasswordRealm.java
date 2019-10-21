@@ -57,8 +57,8 @@ public class UserPasswordRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         String name = token.getUsername();
         // 从数据库获取对应用户名密码的用户
-        User user = userService.findByUserName(name);
-
+//        User user = userService.findByUserName(name);
+        User user=userService.getByPhone(name);
         if (user != null) {
             log.info(user.toString());
             // 用户为禁用状态
