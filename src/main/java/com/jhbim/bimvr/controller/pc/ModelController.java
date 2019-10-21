@@ -54,14 +54,14 @@ public class ModelController {
                 project_id=ModelProjectid;
                 System.out.println("不等于null-----"+project_id);
             }
-            String address="E:/tomcat9/apache-tomcat-9.0.26-windows-x64/apache-tomcat-9.0.26/webapps/ROOT/Printscreen/";
+            String address="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Printscreen\\";
             File file=new File(address);
             if(!file.exists()) {
                 file.mkdirs();
             }
             String images= UUID.randomUUID().toString()+".jpg";
             String tupian="Printscreen/"+project_id+"/"+ images;
-            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe E:/tomcat9/apache-tomcat-9.0.26-windows-x64/apache-tomcat-9.0.26/webapps/ROOT/"+tupian);
+            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\"+tupian);
 
             //保存到截图表里
             Printscreen printscreen=new Printscreen();
