@@ -18,4 +18,6 @@ public interface IDownloadService {
 
     Boolean deleteByPrimaryKey(Long id);
 
+    Download selectByUserId(String userId);
+
 }

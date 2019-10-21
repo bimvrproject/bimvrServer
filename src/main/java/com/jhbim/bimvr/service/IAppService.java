@@ -13,4 +13,7 @@ public interface IAppService {
     App selectByProjectId(Long projectId);
 
     List<App> select();
+
+    //查询下载记录
+  App selectByProjectType(Long projectId,Integer type);
 }

@@ -21,4 +21,6 @@ public interface AppMapper {
     int updateByPrimaryKeySelective(App record);
 
     int updateByPrimaryKey(App record);
+
+    App selectByProjectType(Long projectId,Integer type);
 }

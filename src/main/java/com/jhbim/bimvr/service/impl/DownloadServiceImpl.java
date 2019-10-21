@@ -52,4 +52,9 @@ public class DownloadServiceImpl implements IDownloadService {
         }
         return flag;
     }
+
+    @Override
+    public Download selectByUserId(String userId) {
+        return downloadMapper.selectByUserId(userId);
+    }
 }

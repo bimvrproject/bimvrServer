@@ -13,6 +13,8 @@ public interface DownloadMapper {
 
     Download selectByPrimaryKey(Long id);
 
+    Download selectByUserId(String userId);
+
     List<Download> select();
 
     int updateByPrimaryKeySelective(Download record);

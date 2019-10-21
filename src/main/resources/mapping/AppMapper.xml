@@ -32,6 +32,12 @@
     <include refid="Base_Column_List" />
     from app
   </select>
+  <select id="selectByProjectType" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from app
+    where project_id = #{projectId,jdbcType=BIGINT} and type = #{type,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from app
     where id = #{id,jdbcType=BIGINT}

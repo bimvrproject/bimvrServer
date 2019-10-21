@@ -28,4 +28,9 @@ public class AppServiceImpl implements IAppService {
     public List<App> select() {
         return appMapper.select();
     }
+
+    @Override
+    public App selectByProjectType(Long projectId, Integer type) {
+        return appMapper.selectByProjectType(projectId,type);
+    }
 }

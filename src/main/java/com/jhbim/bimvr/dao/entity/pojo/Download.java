@@ -14,6 +14,8 @@ public class Download implements Serializable {
 
     private String name;
 
+    private Long isDownload;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -58,6 +60,14 @@ public class Download implements Serializable {
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
+    }
+
+    public Long getIsDownload() {
+        return isDownload;
+    }
+
+    public void setIsDownload(Long isDownload) {
+        this.isDownload = isDownload;
     }
 
     @Override

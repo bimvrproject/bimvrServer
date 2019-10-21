@@ -7,15 +7,23 @@
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="file_id" property="fileId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="is_download" property="isDownload" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_time, user_id, file_id,name
+    id, create_time, user_id, file_id,name,is_download
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from download
     where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from download
+    where user_id = #{userId,jdbcType=VARCHAR}
   </select>
   <select id="select" resultMap="BaseResultMap" >
     select
@@ -28,9 +36,9 @@
   </delete>
   <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.Download" >
     insert into download ( create_time, user_id,
-      file_id,name)
+      file_id,name,is_download)
     values (#{createTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR},
-      #{fileId,jdbcType=BIGINT},#{name,jdbcType=VARCHAR})
+      #{fileId,jdbcType=BIGINT},#{name,jdbcType=VARCHAR}, #{isDownload,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Download" >
     insert into download
@@ -49,7 +57,11 @@
       </if>
       <if test="name != null" >
         name,
+      </if>,
+      <if test="isdownload != null" >
+        is_download,
       </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -65,8 +77,12 @@
         #{fileId,jdbcType=BIGINT},
       </if>
       <if test="name != null" >
-        #{fileId,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+      </if>,
+      <if test="isDownload != null" >
+        #{isDownload,jdbcType=BIGINT},
       </if>
+
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Download" >
@@ -83,7 +99,11 @@
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
+      </if>,
+      <if test="isdownload != null" >
+        is_download = #{isDownload,jdbcType=BIGINT},
       </if>
+
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -92,7 +112,9 @@
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       user_id = #{userId,jdbcType=VARCHAR},
       file_id = #{fileId,jdbcType=BIGINT},
-       name = #{name,jdbcType=VARCHAR}
+       name = #{name,jdbcType=VARCHAR},
+        is_download = #{isDownload,jdbcType=BIGINT}
+
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
