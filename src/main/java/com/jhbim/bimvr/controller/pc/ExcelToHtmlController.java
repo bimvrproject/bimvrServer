@@ -44,6 +44,7 @@ public class ExcelToHtmlController {
     public Result exceltohtml(String addressurl){
         ExcelToHtml excelToHtml=new ExcelToHtml();
         String convertByFile = excelToHtml.SubmitPost("http://dcs.yozosoft.com:80/upload", "C:/ftp"+addressurl, "0");
+        System.out.println(convertByFile);
         String url= String.valueOf(convertByFile.subSequence(21,87));
         return  new Result(ResultStatusCode.OK,url);
     }
