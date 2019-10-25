@@ -57,7 +57,6 @@ public class ModelController {
                 System.out.println("不等于null-----"+project_id);
             }
             String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Printscreen\\";
-//            String address="E:\\tomcat9 a\\Printscreen\\";
             File file=new File(address);
             if(!file.exists()) {
                 file.mkdirs();
@@ -65,7 +64,6 @@ public class ModelController {
             String images= UUID.randomUUID().toString()+".jpg";
             String tupian="Printscreen/"+project_id+"/"+ images;
             Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\"+tupian);
-//            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe E:\\tomcat9 a\\"+tupian);
 
             //保存到截图表里
             Printscreen printscreen=new Printscreen();
@@ -88,14 +86,14 @@ public class ModelController {
      * @param projectId
      * @return
      */
-    @GetMapping("/selectPrintscreen/{projectId}/{modelid}")
-    public Result selectPrintscreen(@PathVariable String projectId,@PathVariable Long modelid){
+    @GetMapping("/selectPrintscreen/{projectId}/{modelid}/{typdprint}")
+    public Result selectPrintscreen(@PathVariable String projectId,@PathVariable Long modelid,@PathVariable Long  typdprint){
         User user= ShiroUtil.getUser();
         Printscreen printscreen=new Printscreen();
         printscreen.setPrintscreenUser(user.getPhone());
         printscreen.setProjectId(projectId);
         printscreen.setModelId(modelid);
-        printscreen.setTypdprint(1L);
+        printscreen.setTypdprint(typdprint);
         List<Printscreen> printscreenList=printscreenMapper.selectproject(printscreen);
         PrintscreenVo printscreenVo=new PrintscreenVo();
         printscreenVo.setPrintscreenslist(printscreenList);
@@ -109,14 +107,12 @@ public class ModelController {
      */
     @GetMapping("/dynamicForeachTest")
     public Result dynamicForeachTest(Integer[] ids){
-//        String ip="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\";
         String ip="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\";
         List<Printscreen> printscreenList=printscreenMapper.dynamicForeachTest(ids);
         List<File> list=new ArrayList<>();
         for (Printscreen p : printscreenList) {
             list.add(new File(ip+p.getImages()));
         }
-//        File file=new File("E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Zip\\");
         File file=new File("D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Zip\\");
         if(!file.exists()){
             file.mkdirs();
@@ -129,8 +125,8 @@ public class ModelController {
         int one=uuid.lastIndexOf("\\");
         String shuchu=uuid.substring(one+1);
         String what=zip+"/"+shuchu;
-//        String prot="http://192.168.6.152:8080/";
-        String prot="http://36.112.65.110:8080/";
+        String prot="http://192.168.6.152:8080/";
+//        String prot="http://36.112.65.110:8080/";
         String address=prot+what;
         return new Result(ResultStatusCode.OK,address);
     }
