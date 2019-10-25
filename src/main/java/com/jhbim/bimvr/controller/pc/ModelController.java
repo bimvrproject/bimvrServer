@@ -56,16 +56,16 @@ public class ModelController {
                 project_id=ModelProjectid;
                 System.out.println("不等于null-----"+project_id);
             }
-            String address="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Printscreen\\";
-//            String address="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Printscreen\\";
+            String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Printscreen\\";
+//            String address="E:\\tomcat9 a\\Printscreen\\";
             File file=new File(address);
             if(!file.exists()) {
                 file.mkdirs();
             }
             String images= UUID.randomUUID().toString()+".jpg";
             String tupian="Printscreen/"+project_id+"/"+ images;
-            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\"+tupian);
-//            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\"+tupian);
+            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\"+tupian);
+//            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe E:\\tomcat9 a\\"+tupian);
 
             //保存到截图表里
             Printscreen printscreen=new Printscreen();
@@ -110,14 +110,14 @@ public class ModelController {
     @GetMapping("/dynamicForeachTest")
     public Result dynamicForeachTest(Integer[] ids){
 //        String ip="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\";
-        String ip="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\";
+        String ip="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\";
         List<Printscreen> printscreenList=printscreenMapper.dynamicForeachTest(ids);
         List<File> list=new ArrayList<>();
         for (Printscreen p : printscreenList) {
             list.add(new File(ip+p.getImages()));
         }
 //        File file=new File("E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Zip\\");
-        File file=new File("C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Zip\\");
+        File file=new File("D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Zip\\");
         if(!file.exists()){
             file.mkdirs();
         }
