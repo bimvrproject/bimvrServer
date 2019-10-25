@@ -109,15 +109,15 @@ public class ModelController {
      */
     @GetMapping("/dynamicForeachTest")
     public Result dynamicForeachTest(Integer[] ids){
-        String ip="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\";
-//        String ip="C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\ROOT\\";
+//        String ip="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\";
+        String ip="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\";
         List<Printscreen> printscreenList=printscreenMapper.dynamicForeachTest(ids);
         List<File> list=new ArrayList<>();
         for (Printscreen p : printscreenList) {
             list.add(new File(ip+p.getImages()));
         }
-        File file=new File("E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Zip\\");
-//        File file=new File("C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\ROOT\\Zip\\");
+//        File file=new File("E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Zip\\");
+        File file=new File("C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Zip\\");
         if(!file.exists()){
             file.mkdirs();
         }
@@ -129,8 +129,8 @@ public class ModelController {
         int one=uuid.lastIndexOf("\\");
         String shuchu=uuid.substring(one+1);
         String what=zip+"/"+shuchu;
-        String prot="http://192.168.6.152:8080/";
-//        String prot="http://36.112.65.110:8080/";
+//        String prot="http://192.168.6.152:8080/";
+        String prot="http://36.112.65.110:8080/";
         String address=prot+what;
         return new Result(ResultStatusCode.OK,address);
     }
