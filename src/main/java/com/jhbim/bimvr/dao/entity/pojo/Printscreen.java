@@ -14,6 +14,16 @@ public class Printscreen implements Serializable {
 
     private Long modelId;
 
+    private Long typdprint;
+
+    public Long getTypdprint() {
+        return typdprint;
+    }
+
+    public void setTypdprint(Long typdprint) {
+        this.typdprint = typdprint;
+    }
+
     public Long getPrintscreenId() {
         return PrintscreenId;
     }

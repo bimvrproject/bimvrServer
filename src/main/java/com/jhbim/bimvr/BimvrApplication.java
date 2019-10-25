@@ -10,6 +10,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -22,6 +23,7 @@ import java.math.BigInteger;
 
 @SpringBootApplication(scanBasePackages = "com.jhbim.bimvr")
 @MapperScan("com.jhbim.bimvr.dao.mapper")
+@EnableScheduling
 public class BimvrApplication extends SpringBootServletInitializer {
 
     public static JsonParser settings = new JsonParser() {

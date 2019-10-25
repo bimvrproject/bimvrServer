@@ -430,7 +430,7 @@ public class UploadController {
             ftpFileUpload.upload(IP+project_id,"");
             //当前日期+1表示建筑模型
             String one=project_id+"/1";
-            String price1=project_id+"/1"+"/price";     //造价
+            String price1=project_id+"/1"+"/price/";     //造价
             //创建日期目录下的1,
             ftpFileUpload.upload(IP+one,"");
             ftpFileUpload.upload(IP+price1,"");
@@ -491,7 +491,7 @@ public class UploadController {
             ftpFileUpload.upload(IP+project_id,"");
             //当前日期+1表示建筑模型
             String one=project_id+"/2";
-            String price1=project_id+"/2"+"/price";     //造价
+            String price1=project_id+"/2"+"/price/";     //造价
             //创建日期目录下的1,
             ftpFileUpload.upload(IP+one,"");
             ftpFileUpload.upload(IP+price1,"");

@@ -10,6 +10,7 @@ import com.jhbim.bimvr.dao.mapper.ResModelMapper;
 import com.jhbim.bimvr.system.enums.ResultStatusCode;
 import com.jhbim.bimvr.utils.Ftp;
 import com.jhbim.bimvr.utils.ShiroUtil;
+import com.jhbim.bimvr.utils.ZipFiles;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,14 +56,16 @@ public class ModelController {
                 project_id=ModelProjectid;
                 System.out.println("不等于null-----"+project_id);
             }
-            String address="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Printscreen\\";
+//            String address="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Printscreen\\";
+            String address="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Printscreen\\";
             File file=new File(address);
             if(!file.exists()) {
                 file.mkdirs();
             }
             String images= UUID.randomUUID().toString()+".jpg";
             String tupian="Printscreen/"+project_id+"/"+ images;
-            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\"+tupian);
+//            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\"+tupian);
+            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\"+tupian);
 
             //保存到截图表里
             Printscreen printscreen=new Printscreen();
@@ -69,6 +73,7 @@ public class ModelController {
             printscreen.setImages(tupian);
             printscreen.setProjectId(String.valueOf(project_id));
             printscreen.setModelId(1L);
+            printscreen.setTypdprint(1L);
             printscreenMapper.insert(printscreen);
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,17 +88,51 @@ public class ModelController {
      * @param projectId
      * @return
      */
-    @GetMapping("/selectPrintscreen/{projectId}")
-    public Result selectPrintscreen(@PathVariable String projectId){
+    @GetMapping("/selectPrintscreen/{projectId}/{modelid}")
+    public Result selectPrintscreen(@PathVariable String projectId,@PathVariable Long modelid){
         User user= ShiroUtil.getUser();
         Printscreen printscreen=new Printscreen();
         printscreen.setPrintscreenUser(user.getPhone());
         printscreen.setProjectId(projectId);
-        printscreen.setModelId(1L);
+        printscreen.setModelId(modelid);
+        printscreen.setTypdprint(1L);
         List<Printscreen> printscreenList=printscreenMapper.selectproject(printscreen);
         PrintscreenVo printscreenVo=new PrintscreenVo();
         printscreenVo.setPrintscreenslist(printscreenList);
         return new Result(ResultStatusCode.OK,printscreenVo );
+    }
+
+    /**
+     * 获取截图的id返回截图的路径
+     * @param ids
+     * @return
+     */
+    @GetMapping("/dynamicForeachTest")
+    public Result dynamicForeachTest(Integer[] ids){
+        String ip="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\";
+//        String ip="C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\ROOT\\";
+        List<Printscreen> printscreenList=printscreenMapper.dynamicForeachTest(ids);
+        List<File> list=new ArrayList<>();
+        for (Printscreen p : printscreenList) {
+            list.add(new File(ip+p.getImages()));
+        }
+        File file=new File("E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Zip\\");
+//        File file=new File("C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\ROOT\\Zip\\");
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        int oo=file.getAbsolutePath().lastIndexOf("\\");
+        String zip=file.getAbsolutePath().substring(oo+1);
+        File zipFile = new File(file.getAbsolutePath()+"\\"+UUID.randomUUID().toString()+".zip");
+        ZipFiles.toZip(list,zipFile);
+        String uuid=zipFile.getAbsolutePath();
+        int one=uuid.lastIndexOf("\\");
+        String shuchu=uuid.substring(one+1);
+        String what=zip+"/"+shuchu;
+        String prot="http://192.168.6.152:8080/";
+//        String prot="http://36.112.65.110:8080/";
+        String address=prot+what;
+        return new Result(ResultStatusCode.OK,address);
     }
     /**
      * 增加模型
