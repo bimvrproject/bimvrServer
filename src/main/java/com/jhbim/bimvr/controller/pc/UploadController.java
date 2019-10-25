@@ -441,6 +441,7 @@ public class UploadController {
                 String url=IP+price1+file[i].getOriginalFilename();
                 System.out.println(url);
                 ResMeterial meterial=new ResMeterial();
+                System.out.println(usrcompanyid+"--111");
                 meterial.setCompanyId(usrcompanyid);
                 meterial.setProjectId(project_id);
                 meterial.setModelId("1");
@@ -500,7 +501,6 @@ public class UploadController {
 
             for (int i = 0; i < file.length; i++) {
                 String url=IP+price1+file[i].getOriginalFilename();
-                System.out.println(url);
                 ResMeterial meterial=new ResMeterial();
                 meterial.setCompanyId(usrcompanyid);
                 meterial.setProjectId(project_id);
