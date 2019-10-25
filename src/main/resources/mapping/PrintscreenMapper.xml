@@ -3,20 +3,22 @@
 <mapper namespace="com.jhbim.bimvr.dao.mapper.PrintscreenMapper" >
     <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.Printscreen" >
         <id column="Printscreen_id" property="PrintscreenId" jdbcType="BIGINT"/>
-        <result column="Printscreen_userid" property="PrintscreenUserid" jdbcType="BIGINT"/>
+        <result column="Printscreen_user" property="PrintscreenUser" jdbcType="BIGINT"/>
         <result column="images" property="images" jdbcType="VARCHAR"/>
         <result column="project_id" property="projectId" jdbcType="BIGINT"/>
+        <result column="model_id" property="modelId" jdbcType="BIGINT"/>
+        <result column="typdprint" property="typdprint" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List" >
-     Printscreen_id, Printscreen_userid, images
+     Printscreen_id, Printscreen_user, images,project_id,model_id,typdprint
     </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
         delete from Printscreen
         where Printscreen_id = #{PrintscreenId}
     </delete>
     <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.Printscreen">
-        insert into Printscreen (Printscreen_id, Printscreen_userid, images,project_id)
-        values (#{PrintscreenId,jdbcType=BIGINT}, #{PrintscreenUserid,jdbcType=BIGINT}, #{images,jdbcType=VARCHAR},#{projectId,jdbcType=BIGINT})
+        insert into Printscreen (Printscreen_id, Printscreen_user, images,project_id,model_id,typdprint)
+        values (#{PrintscreenId,jdbcType=BIGINT}, #{PrintscreenUser,jdbcType=BIGINT}, #{images,jdbcType=VARCHAR},#{projectId,jdbcType=BIGINT},#{modelId,jdbcType=BIGINT},#{typdprint,jdbcType=BIGINT})
     </insert>
     <select id="selectproject" resultMap="BaseResultMap" parameterType="com.jhbim.bimvr.dao.entity.pojo.Printscreen">
         select
@@ -28,5 +30,7 @@
         project_id = #{projectId,jdbcType=VARCHAR}
         and
         Printscreen_user = #{PrintscreenUser,jdbcType=VARCHAR}
+        and
+        typdprint = #{typdprint,jdbcType=BIGINT}
     </select>
 </mapper>
