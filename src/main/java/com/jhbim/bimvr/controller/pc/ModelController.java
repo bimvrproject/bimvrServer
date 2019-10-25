@@ -116,6 +116,7 @@ public class ModelController {
         for (Printscreen p : printscreenList) {
             list.add(new File(ip+p.getImages()));
         }
+
 //        File file=new File("E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Zip\\");
         File file=new File("C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Zip\\");
         if(!file.exists()){
