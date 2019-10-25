@@ -33,4 +33,13 @@
         and
         typdprint = #{typdprint,jdbcType=BIGINT}
     </select>
+    <!--点击截图的复选框获取到id 并存放在list集合里面-->
+    <select id="dynamicForeachTest" resultMap="BaseResultMap" parameterType="java.lang.reflect.Array" >
+        select
+        <include refid="Base_Column_List" />
+        from printscreen where Printscreen_id in
+        <foreach collection="array" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

@@ -19,7 +19,7 @@ public class ScheduledTasks {
 //    @Scheduled(fixedRate = 15000)
     public void reportCurrentTime() {
         System.out.println("现在时间：" +dateFormat.format(new Date()));
-        String address="E:\\tomcat9\\apache-tomcat-9.0.26-windows-x64\\apache-tomcat-9.0.26\\webapps\\ROOT\\Zip\\";
+        String address="C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\ROOT\\Zip\\";
         FileUploadUtils.deleteDir(address);
     }
 }
