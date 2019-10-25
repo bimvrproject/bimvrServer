@@ -125,8 +125,8 @@ public class ModelController {
         int one=uuid.lastIndexOf("\\");
         String shuchu=uuid.substring(one+1);
         String what=zip+"/"+shuchu;
-        String prot="http://192.168.6.152:8080/";
-//        String prot="http://36.112.65.110:8080/";
+//        String prot="http://192.168.6.152:8080/";
+        String prot="http://36.112.65.110:8080/";
         String address=prot+what;
         return new Result(ResultStatusCode.OK,address);
     }
