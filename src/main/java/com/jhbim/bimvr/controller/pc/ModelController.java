@@ -8,9 +8,8 @@ import com.jhbim.bimvr.dao.entity.vo.Result;
 import com.jhbim.bimvr.dao.mapper.PrintscreenMapper;
 import com.jhbim.bimvr.dao.mapper.ResModelMapper;
 import com.jhbim.bimvr.system.enums.ResultStatusCode;
-import com.jhbim.bimvr.utils.Ftp;
 import com.jhbim.bimvr.utils.ShiroUtil;
-import com.jhbim.bimvr.utils.ZipFiles;
+import com.jhbim.bimvr.utils.Zip;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -18,10 +17,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -34,51 +35,17 @@ public class ModelController {
     PrintscreenMapper printscreenMapper;
 
     /**
-     * 截图
-     * @param request
+     * 保存截图
+     * @param printscreen
      * @return
      */
-    @GetMapping("/OpenCmd")
-    public Result OpenCmd(HttpServletRequest request){
-        User user= ShiroUtil.getUser();
-        ServletContext application =request.getSession().getServletContext();
-        //项目id
-        Long project_ids= (Long) application.getAttribute("Project_ID");
-        Long ModelProjectid= (Long) application.getAttribute("ModelProject_id");
-
-        try {
-            Long project_id=0L;
-            if(ModelProjectid==null){
-                project_id=project_ids;
-                System.out.println("等于null----"+project_id);
-            }
-            if(ModelProjectid!=null){
-                project_id=ModelProjectid;
-                System.out.println("不等于null-----"+project_id);
-            }
-            String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Printscreen\\";
-            File file=new File(address);
-            if(!file.exists()) {
-                file.mkdirs();
-            }
-            String images= UUID.randomUUID().toString()+".jpg";
-            String tupian="Printscreen/"+project_id+"/"+ images;
-            Runtime.getRuntime().exec("C:\\WINDOWS\\system32\\cmd.exe /c C:\\Users\\Administrator\\Desktop\\getScreen.exe D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\"+tupian);
-
-            //保存到截图表里
-            Printscreen printscreen=new Printscreen();
-            printscreen.setPrintscreenUser(user.getPhone());
-            printscreen.setImages(tupian);
-            printscreen.setProjectId(String.valueOf(project_id));
-            printscreen.setModelId(1L);
-            printscreen.setTypdprint(1L);
-            printscreenMapper.insert(printscreen);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new Result(ResultStatusCode.OK,"截图成功");
+    @PostMapping("/addprintscreen")
+    @ResponseBody
+    public Result Addprintscreen(@RequestBody Printscreen printscreen){
+        User user=ShiroUtil.getUser();
+        printscreen.setPrintscreenUser(user.getPhone());
+        printscreenMapper.insert(printscreen);
+        return new Result(ResultStatusCode.OK,"ok");
     }
 
     /**
@@ -100,36 +67,46 @@ public class ModelController {
         return new Result(ResultStatusCode.OK,printscreenVo );
     }
 
-    /**
-     * 获取截图的id返回截图的路径
-     * @param ids
-     * @return
-     */
     @GetMapping("/dynamicForeachTest")
-    public Result dynamicForeachTest(Integer[] ids){
-        String ip="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\";
-        List<Printscreen> printscreenList=printscreenMapper.dynamicForeachTest(ids);
-        List<File> list=new ArrayList<>();
-        for (Printscreen p : printscreenList) {
-            list.add(new File(ip+p.getImages()));
+    public Result dynamicForeachTest(Integer[] ids) {
+        List<Printscreen> list = printscreenMapper.dynamicForeachTest(ids);
+        File file = new File("D:\\QRcode");
+        Zip.creatFile(file);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
+        String longTime = sdf.format(new Date());
+        Integer index = 0;
+
+        for (Printscreen printscreen : list) {
+            index++;
+            String newName = longTime + index.toString() + ".jpg";
+            String filePath = file + "/" + newName;
+
+            if (printscreen.getImages() != null) {
+                Boolean result = Zip.Base64ToPicture(printscreen.getImages().substring(22), filePath);
+                if (result == false)
+                    return new Result(ResultStatusCode.FAIL,"压缩失败");
+            }
+            /**
+             * 将二维码文件夹压缩
+             */
+            OutputStream is = null;//创建Test.zip文件
+            try {
+                is = new FileOutputStream("D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Printscreen\\aa.zip");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Boolean KeepDirStructure = true;
+            Zip.toZip(file.toString(), is, KeepDirStructure);
+            /**
+             * 将二维码图片文件夹及其中所有文件删除
+             */
+            Zip.delFolder(file.toString());
+
+
         }
-        File file=new File("D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Zip\\");
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        int oo=file.getAbsolutePath().lastIndexOf("\\");
-        String zip=file.getAbsolutePath().substring(oo+1);
-        File zipFile = new File(file.getAbsolutePath()+"\\"+UUID.randomUUID().toString()+".zip");
-        ZipFiles.toZip(list,zipFile);
-        String uuid=zipFile.getAbsolutePath();
-        int one=uuid.lastIndexOf("\\");
-        String shuchu=uuid.substring(one+1);
-        String what=zip+"/"+shuchu;
-//        String prot="http://192.168.6.152:8080/";
-        String prot="http://36.112.65.110:8080/";
-        String address=prot+what;
-        return new Result(ResultStatusCode.OK,address);
+        return new Result(ResultStatusCode.OK,"压缩成功");
     }
+
     /**
      * 增加模型
      * @param model
