@@ -42,6 +42,10 @@ public class Document implements Serializable {
 
     private Date lastModifyTime;
 
+    private Integer type;
+
+    private Long projectId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -194,6 +198,22 @@ public class Document implements Serializable {
 
     public void setLastModifyTime(Date lastModifyTime) {
         this.lastModifyTime = lastModifyTime;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     @Override

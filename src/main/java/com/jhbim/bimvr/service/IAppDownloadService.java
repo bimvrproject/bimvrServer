@@ -1,7 +1,6 @@
 package com.jhbim.bimvr.service;
 
 import com.jhbim.bimvr.dao.entity.pojo.AppDownload;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

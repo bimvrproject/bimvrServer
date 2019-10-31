@@ -1,5 +1,6 @@
 package com.jhbim.bimvr.dao.mapper;
 
+import com.jhbim.bimvr.dao.entity.pojo.AppProject;
 import com.jhbim.bimvr.dao.entity.pojo.CompanyProject;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface CompanyProjectMapper {
     int insertSelective(CompanyProject record);
 
     CompanyProject selectByPrimaryKey(Long id);
+
+    List<AppProject> selectByCompanyId(Long companyId);
 
     int updateByPrimaryKeySelective(CompanyProject record);
 
