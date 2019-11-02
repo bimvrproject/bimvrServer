@@ -13,6 +13,8 @@ public interface DocumentMapper {
 
     Document selectByPrimaryKey(Long id);
 
+    Document selectByProjectIdType(Long projectId,Integer type);
+
     List<Document> select();
     int updateByPrimaryKeySelective(Document record);
 

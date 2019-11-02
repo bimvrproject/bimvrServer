@@ -11,4 +11,6 @@ import java.util.List;
 public interface IDocumentService {
     List<Document> select();
     Document selectByPrimaryKey(Long id);
+
+    Document selectByProjectIdType(Long projectId,Integer type);
 }

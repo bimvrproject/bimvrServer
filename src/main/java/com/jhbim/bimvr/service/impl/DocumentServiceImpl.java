@@ -27,5 +27,10 @@ public class DocumentServiceImpl implements IDocumentService {
     public Document selectByPrimaryKey(Long id) {
         return documentMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public Document selectByProjectIdType(Long projectId, Integer type) {
+        return documentMapper.selectByProjectIdType(projectId,type);
+    }
 }
 

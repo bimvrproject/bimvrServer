@@ -21,17 +21,25 @@
     <result column="is_deletable" property="isDeletable" jdbcType="INTEGER" />
     <result column="is_updatable" property="isUpdatable" jdbcType="INTEGER" />
     <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name, suffix, local_url, visit_url, size, create_time, description, check_times, 
     download_times, tag, user_id, category_id, is_downloadable, is_uploadable, is_visible, 
-    is_deletable, is_updatable, last_modify_time
+    is_deletable, is_updatable, last_modify_time,type,project_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="long"  >
     select 
     <include refid="Base_Column_List" />
     from document
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByProjectIdType" resultMap="BaseResultMap"   >
+    select
+    <include refid="Base_Column_List" />
+    from document
+    where project_id = #{projectId,jdbcType=BIGINT} and type = #{type,jdbcType=INTEGER}
   </select>
   <select id="select" resultMap="BaseResultMap"  >
     select
@@ -49,14 +57,14 @@
       download_times, tag, user_id, 
       category_id, is_downloadable, is_uploadable, 
       is_visible, is_deletable, is_updatable, 
-      last_modify_time)
+      last_modify_time,type,project_id)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{suffix,jdbcType=VARCHAR}, 
       #{localUrl,jdbcType=VARCHAR}, #{visitUrl,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{checkTimes,jdbcType=INTEGER}, 
       #{downloadTimes,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
       #{categoryId,jdbcType=INTEGER}, #{isDownloadable,jdbcType=INTEGER}, #{isUploadable,jdbcType=INTEGER}, 
       #{isVisible,jdbcType=INTEGER}, #{isDeletable,jdbcType=INTEGER}, #{isUpdatable,jdbcType=INTEGER}, 
-      #{lastModifyTime,jdbcType=TIMESTAMP})
+      #{lastModifyTime,jdbcType=TIMESTAMP},#{type,jdbcType=INTEGER},#{projectId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Document" >
     insert into document
@@ -118,6 +126,12 @@
       <if test="lastModifyTime != null" >
         last_modify_time,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -176,6 +190,12 @@
       </if>
       <if test="lastModifyTime != null" >
         #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{project_id,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -236,6 +256,12 @@
       <if test="lastModifyTime != null" >
         last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{project_id,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -258,7 +284,9 @@
       is_visible = #{isVisible,jdbcType=INTEGER},
       is_deletable = #{isDeletable,jdbcType=INTEGER},
       is_updatable = #{isUpdatable,jdbcType=INTEGER},
-      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP}
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
