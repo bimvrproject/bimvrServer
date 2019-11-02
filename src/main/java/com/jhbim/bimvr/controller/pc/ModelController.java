@@ -94,8 +94,8 @@ public class ModelController {
          */
         Zip.delFolder(f.toString());
         String zip=compression.substring(compression.lastIndexOf("\\")+1);
-        String address="http://192.168.6.152:8080/Zip/"+zip;
-//        String address="http://36.112.65.110:8080/Zip/"+zip;
+//        String address="http://192.168.6.152:8080/Zip/"+zip;
+        String address="http://36.112.65.110:8080/Zip/"+zip;
         return new Result(ResultStatusCode.OK,address);
     }
 
