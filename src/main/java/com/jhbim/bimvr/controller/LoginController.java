@@ -52,6 +52,7 @@ public class LoginController {
         User user = userMapper.getByPhone(username);
         ServletContext application=request.getSession().getServletContext();
         application.setAttribute("User_CompanyId",user.getCompanyId());
+        application.setAttribute("User_Phone",user.getPhone());
 //        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
         if(MD5Util.encrypt(password).equals(user.getPassword())){
             UserToken token = new UserToken(LoginType.USER_PASSWORD, username, password);

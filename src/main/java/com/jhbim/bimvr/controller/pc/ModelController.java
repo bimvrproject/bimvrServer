@@ -9,13 +9,19 @@ import com.jhbim.bimvr.dao.mapper.PrintscreenMapper;
 import com.jhbim.bimvr.dao.mapper.ResModelMapper;
 import com.jhbim.bimvr.system.enums.ResultStatusCode;
 import com.jhbim.bimvr.utils.ShiroUtil;
+import com.jhbim.bimvr.utils.Zip;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -34,9 +40,10 @@ public class ModelController {
      */
     @PostMapping("/addprintscreen")
     @ResponseBody
-    public Result Addprintscreen(@RequestBody Printscreen printscreen){
-        User user=ShiroUtil.getUser();
-        printscreen.setPrintscreenUser(user.getPhone());
+    public Result Addprintscreen(@RequestBody Printscreen printscreen ,HttpServletRequest request){
+        ServletContext application=request.getSession().getServletContext();
+        String userphone= (String) application.getAttribute("User_Phone");
+        printscreen.setPrintscreenUser(userphone);
         printscreenMapper.insert(printscreen);
         return new Result(ResultStatusCode.OK,"ok");
     }
@@ -60,45 +67,37 @@ public class ModelController {
         return new Result(ResultStatusCode.OK,printscreenVo );
     }
 
-//    @GetMapping("/dynamicForeachTest")
-//    public Result dynamicForeachTest(Integer[] ids) {
-//        List<Printscreen> list = printscreenMapper.dynamicForeachTest(ids);
-//        File file = new File("D:\\QRcode");
-//        Zip.creatFile(file);
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
-//        String longTime = sdf.format(new Date());
-//        Integer index = 0;
-//
-//        for (Printscreen printscreen : list) {
-//            index++;
-//            String newName = longTime + index.toString() + ".jpg";
-//            String filePath = file + "/" + newName;
-//
-//            if (printscreen.getImages() != null) {
-//                Boolean result = Zip.Base64ToPicture(printscreen.getImages().substring(22), filePath);
-//                if (result == false)
-//                    return new Result(ResultStatusCode.FAIL,"压缩失败");
-//            }
-//            /**
-//             * 将二维码文件夹压缩
-//             */
-//            OutputStream is = null;//创建Test.zip文件
-//            try {
-//                is = new FileOutputStream("D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Printscreen\\aa.zip");
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            Boolean KeepDirStructure = true;
-//            Zip.toZip(file.toString(), is, KeepDirStructure);
-//            /**
-//             * 将二维码图片文件夹及其中所有文件删除
-//             */
-//            Zip.delFolder(file.toString());
-//
-//
-//        }
-//        return new Result(ResultStatusCode.OK,"压缩成功");
-//    }
+    @GetMapping("/dynamicForeachTest")
+    public Result dynamicForeachTest(Integer[] ids){
+        String ip="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\";
+        List<Printscreen> printscreenList=printscreenMapper.dynamicForeachTest(ids);
+        String folder= UUID.randomUUID().toString();
+        String path="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Zip\\"+folder;
+        File f=new File(path);
+        if(!f.exists()){
+            f.mkdirs();
+        }
+        for (Printscreen p : printscreenList) {
+            Zip.GenerateImage(p.getImages(),f.getPath()+"\\"+ UUID.randomUUID().toString() +".jpg");
+        }
+        OutputStream is = null;//创建Test.zip文件
+        String compression=f.getPath()+".zip";
+        try {
+            is = new FileOutputStream(compression);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Boolean KeepDirStructure = true;
+        Zip.toZip(f.toString(), is, KeepDirStructure);
+        /**
+         * 将文件夹及其中所有文件删除
+         */
+        Zip.delFolder(f.toString());
+        String zip=compression.substring(compression.lastIndexOf("\\")+1);
+        String address="http://192.168.6.152:8080/Zip/"+zip;
+//        String address="http://36.112.65.110:8080/Zip/"+zip;
+        return new Result(ResultStatusCode.OK,address);
+    }
 
     /**
      * 增加模型
