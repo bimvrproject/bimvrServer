@@ -49,16 +49,23 @@ public class LoginController {
      */
     @RequestMapping("/login")
     public Result login(String username, String password,HttpServletRequest request){
+        //根据登录人的手机号查询他的所有的信息
         User user = userMapper.getByPhone(username);
+        //判断是否注册过
+        if(user==null){
+            return new Result(ResultStatusCode.NOT_EXIST_USER_OR_ERROR_PWD); //登录失败
+        }
+        //登录成功
         ServletContext application=request.getSession().getServletContext();
         application.setAttribute("User_CompanyId",user.getCompanyId());
         application.setAttribute("User_Phone",user.getPhone());
 //        Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+        //注册的时候将密码加密  登录的时候跟MD5做匹配  登录成功
         if(MD5Util.encrypt(password).equals(user.getPassword())){
             UserToken token = new UserToken(LoginType.USER_PASSWORD, username, password);
             return shiroLogin(token);
         }
-      return new Result(ResultStatusCode.NOT_EXIST_USER_OR_ERROR_PWD);
+        return new Result(ResultStatusCode.NOT_EXIST_USER_OR_ERROR_PWD);
     }
 
     /**
@@ -71,12 +78,13 @@ public class LoginController {
      */
     @RequestMapping("phoneLogin")
     public Result sendSms(String mobile){
+        //随机数6
         String random= RandomStringUtils.randomNumeric(6);
         System.out.println(mobile+"随机数:"+random);
         redisTemplate.opsForValue().set(mobile,random+"",5, TimeUnit.MINUTES);  	//	5分钟过期
         SMSConfig.send(mobile,random);
-        UserToken token = new UserToken(LoginType.USER_PHONE, mobile, random);
-        return shiroLogin(token);
+        return new Result(ResultStatusCode.OK);
+
     }
 
     /**
@@ -226,11 +234,13 @@ public class LoginController {
                 User user = userMapper.getByPhone(phone);
                 ServletContext application=request.getSession().getServletContext();
                 application.setAttribute("User_CompanyId",user.getCompanyId());
-                Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
-                System.out.println(usrcompanyid+"789//");
+//                Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
+//                System.out.println(usrcompanyid+"789//");
             }
         }
-        return result;
+        UserToken token = new UserToken(LoginType.USER_PHONE, phone, smsCode);
+        return shiroLogin(token);
+//        return result;
     }
 
 }
