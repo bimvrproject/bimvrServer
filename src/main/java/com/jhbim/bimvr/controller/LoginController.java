@@ -175,7 +175,7 @@ public class LoginController {
         if(user!=null){
             return new Result(ResultStatusCode.FAIL, "已注册");
         }
-        return new Result(ResultStatusCode.OK);
+        return new Result(ResultStatusCode.RegiterSuccess);
     }
 
     /**
