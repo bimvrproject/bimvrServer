@@ -234,13 +234,12 @@ public class LoginController {
                 User user = userMapper.getByPhone(phone);
                 ServletContext application=request.getSession().getServletContext();
                 application.setAttribute("User_CompanyId",user.getCompanyId());
-//                Long usrcompanyid= (Long) application.getAttribute("User_CompanyId");
-//                System.out.println(usrcompanyid+"789//");
+                UserToken token = new UserToken(LoginType.USER_PHONE, phone, smsCode);
+                return shiroLogin(token);
             }
         }
-        UserToken token = new UserToken(LoginType.USER_PHONE, phone, smsCode);
-        return shiroLogin(token);
-//        return result;
+
+        return result;
     }
 
 }
