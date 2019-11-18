@@ -173,7 +173,7 @@ public class LoginController {
     public Result register(String phone){
         User user = userMapper.getByPhone(phone);
         if(user!=null){
-            return new Result(ResultStatusCode.FAIL, user);
+            return new Result(ResultStatusCode.FAIL, "已注册");
         }
         return null;
     }
