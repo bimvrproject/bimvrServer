@@ -175,7 +175,7 @@ public class LoginController {
         if(user!=null){
             return new Result(ResultStatusCode.FAIL, "已注册");
         }
-        return new Result(ResultStatusCode.RegiterSuccess);
+        return null;
     }
 
     /**
@@ -204,7 +204,7 @@ public class LoginController {
                 user.setPhone(phone);
                 user.setPassword(MD5Util.encrypt(pwd));
                 userMapper.insertSelective(user);
-                return new Result(ResultStatusCode.OK,"保存成功");
+                return new Result(ResultStatusCode.RegiterSuccess);
             }
         }
         return result;
