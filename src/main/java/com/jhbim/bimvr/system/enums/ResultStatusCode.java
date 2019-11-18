@@ -11,6 +11,7 @@ package com.jhbim.bimvr.system.enums;
 public enum ResultStatusCode {
     OK(0, "OK"),
     FAIL(-1,"操作失败"),
+    RegiterSuccess(3, "注册成功"),
     SIGN_ERROR(120, "签名错误"),
     TIME_OUT(130, "访问超时"),
     BAD_REQUEST(400, "参数解析失败"),
