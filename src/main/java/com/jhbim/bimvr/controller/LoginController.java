@@ -238,7 +238,6 @@ public class LoginController {
                 return shiroLogin(token);
             }
         }
-
         return result;
     }
 
