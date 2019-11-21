@@ -26,6 +26,9 @@ import java.util.UUID;
  * <p>
  * 手机网站支付
  *
+ * @author Mengday Zhang
+ * @version 1.0
+ * @since 2018/6/11
  */
 @Slf4j
 @Controller
@@ -46,15 +49,15 @@ public class AlipayWAPPayController {
      * @param response
      * @throws Exception
      */
-    @PostMapping("/gotoPayPage")
-    public void gotoPayPage(HttpServletResponse response) throws AlipayApiException, IOException {
+    @PostMapping("/gotoPayPage1")
+    public void gotoPayPage1(HttpServletResponse response) throws AlipayApiException, IOException {
         // 订单模型
         String productCode="QUICK_WAP_WAY";
         AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
         model.setOutTradeNo(UUID.randomUUID().toString());
-        model.setSubject("支付测试");
-        model.setTotalAmount("0.01");
-        model.setBody("支付测试，共0.01元");
+        model.setSubject("超级会员");
+        model.setTotalAmount("1699");
+        model.setBody("支付测试，共1699元");
         model.setTimeoutExpress("5m");
         model.setProductCode(productCode);
 
@@ -71,6 +74,59 @@ public class AlipayWAPPayController {
         response.getWriter().flush();
         response.getWriter().close();
     }
+
+    @PostMapping("/gotoPayPage2")
+    public void gotoPayPage2(HttpServletResponse response) throws AlipayApiException, IOException {
+        // 订单模型
+        String productCode="QUICK_WAP_WAY";
+        AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
+        model.setOutTradeNo(UUID.randomUUID().toString());
+        model.setSubject("专享会员");
+        model.setTotalAmount("799");
+        model.setBody("支付测试，共799元");
+        model.setTimeoutExpress("5m");
+        model.setProductCode(productCode);
+
+        AlipayTradeWapPayRequest wapPayRequest =new AlipayTradeWapPayRequest();
+        wapPayRequest.setReturnUrl(aliPayProperties.getReturnUrl());
+        wapPayRequest.setNotifyUrl(aliPayProperties.getNotifyUrl());
+        wapPayRequest.setBizModel(model);
+
+        // 调用SDK生成表单, 并直接将完整的表单html输出到页面
+        String form = alipayClient.pageExecute(wapPayRequest).getBody();
+        System.out.println(form);
+        response.setContentType("text/html;charset=" + aliPayProperties.getCharset());
+        response.getWriter().write(form);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
+    @PostMapping("/gotoPayPage3")
+    public void gotoPayPage3(HttpServletResponse response) throws AlipayApiException, IOException {
+        // 订单模型
+        String productCode="QUICK_WAP_WAY";
+        AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
+        model.setOutTradeNo(UUID.randomUUID().toString());
+        model.setSubject("特权会员");
+        model.setTotalAmount("1399");
+        model.setBody("支付测试，共1399元");
+        model.setTimeoutExpress("5m");
+        model.setProductCode(productCode);
+
+        AlipayTradeWapPayRequest wapPayRequest =new AlipayTradeWapPayRequest();
+        wapPayRequest.setReturnUrl(aliPayProperties.getReturnUrl());
+        wapPayRequest.setNotifyUrl(aliPayProperties.getNotifyUrl());
+        wapPayRequest.setBizModel(model);
+
+        // 调用SDK生成表单, 并直接将完整的表单html输出到页面
+        String form = alipayClient.pageExecute(wapPayRequest).getBody();
+        System.out.println(form);
+        response.setContentType("text/html;charset=" + aliPayProperties.getCharset());
+        response.getWriter().write(form);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
 
 
     /**
