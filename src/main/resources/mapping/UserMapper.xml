@@ -15,16 +15,20 @@
     <result column="version" property="version" jdbcType="INTEGER" />
     <result column="login_flag" property="loginFlag" jdbcType="VARCHAR" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="jurisdiction_id" property="jurisdictionId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, user_name, company_id, role_id, password, salt, name, phone, create_time, 
-    update_time, version, login_flag, open_id
+    update_time, version, login_flag, open_id,picture,position,remarks,jurisdiction_id
   </sql>
   <!--修改密码-->
   <update id="updatePwd" parameterType="com.jhbim.bimvr.dao.entity.pojo.User" >
     update user
     set password = #{password,jdbcType=VARCHAR}
-    where user_name = #{userName,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR}
   </update>
   <select id="getByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
@@ -42,31 +46,29 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where user_name = #{userName,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.jhbim.bimvr.dao.entity.pojo.UserKey" >
     select 
     <include refid="Base_Column_List" />
     from user
-    where user_id = #{userId,jdbcType=BIGINT}
-      and user_name = #{userName,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.UserKey" >
     delete from user
-    where user_id = #{userId,jdbcType=BIGINT}
-      and user_name = #{userName,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.User" >
     insert into user (user_id, user_name, company_id, 
       role_id, password, salt, 
       name, phone, create_time, 
       update_time, version, login_flag, 
-      open_id)
+      open_id,picture,position,remarks,jurisdiction_id)
     values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, 
       #{roleId,jdbcType=BIGINT}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}, #{loginFlag,jdbcType=VARCHAR}, 
-      #{openId,jdbcType=VARCHAR})
+      #{openId,jdbcType=VARCHAR},#{picture,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR},#{remarks,jdbcType=VARCHAR},#{jurisdictionId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.User" >
     insert into user
@@ -110,6 +112,18 @@
       <if test="openId != null" >
         open_id,
       </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="jurisdictionId != null" >
+        jurisdiction_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -151,11 +165,23 @@
       <if test="openId != null" >
         #{openId,jdbcType=VARCHAR},
       </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR}
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdictionId != null" >
+        #{jurisdictionId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.User" >
     update user
-    <set >
+    <set>
       <if test="companyId != null" >
         company_id = #{companyId,jdbcType=BIGINT},
       </if>
@@ -170,9 +196,6 @@
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -189,9 +212,24 @@
       <if test="openId != null" >
         open_id = #{openId,jdbcType=VARCHAR},
       </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="jurisdictionId != null" >
+        #{jurisdiction_id,jdbcType=VARCHAR}
+      </if>
     </set>
-    where user_id = #{userId,jdbcType=BIGINT}
-      and user_name = #{userName,jdbcType=VARCHAR}
+    <where>
+      <if test="phone">
+        phone = #{phone,jdbcType=VARCHAR}
+      </if>
+    </where>
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.User" >
     update user
@@ -200,13 +238,15 @@
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       version = #{version,jdbcType=INTEGER},
       login_flag = #{loginFlag,jdbcType=VARCHAR},
-      open_id = #{openId,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=BIGINT}
-      and user_name = #{userName,jdbcType=VARCHAR}
+      open_id = #{openId,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+      remarks =  #{remarks,jdbcType=VARCHAR},
+      position =  #{position,jdbcType=VARCHAR},
+      jurisdiction_id = #{jurisdictionId,jdbcType=VARCHAR}
+    where  phone = #{phone,jdbcType=VARCHAR}
   </update>
 </mapper>

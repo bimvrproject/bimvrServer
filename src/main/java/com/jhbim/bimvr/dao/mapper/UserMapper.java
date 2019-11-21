@@ -4,19 +4,19 @@ import com.jhbim.bimvr.dao.entity.pojo.User;
 import com.jhbim.bimvr.dao.entity.pojo.UserKey;
 
 public interface UserMapper {
-    int deleteByPrimaryKey(UserKey key);
+    int deleteByPrimaryKey(String phone);
 
     int insert(User record);
 
     int insertSelective(User record);
 
-    User selectByPrimaryKey(UserKey key);
+    User selectByPrimaryKey(String phone);
 
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
-    User findByUserName(String userName);
+    User findByUserName(String phone);
 
     User getByPhone(String phone);
 

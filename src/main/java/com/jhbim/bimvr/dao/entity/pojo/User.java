@@ -26,6 +26,14 @@ public class User extends UserKey implements Serializable {
 
     private String openId;
 
+    private String picture;
+
+    private String position;
+
+    private String remarks;
+
+    private String jurisdictionId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getCompanyId() {
@@ -114,6 +122,38 @@ public class User extends UserKey implements Serializable {
 
     public void setOpenId(String openId) {
         this.openId = openId == null ? null : openId.trim();
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getJurisdictionId() {
+        return jurisdictionId;
+    }
+
+    public void setJurisdictionId(String jurisdictionId) {
+        this.jurisdictionId = jurisdictionId;
     }
 
     @Override
