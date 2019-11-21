@@ -6,6 +6,8 @@ import java.util.Date;
 public class User extends UserKey implements Serializable {
     private Long companyId;
 
+    private String userName;
+
     private Long roleId;
 
     private String password;
@@ -37,6 +39,14 @@ public class User extends UserKey implements Serializable {
     private String companyname;
 
     private static final long serialVersionUID = 1L;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Long getCompanyId() {
         return companyId;

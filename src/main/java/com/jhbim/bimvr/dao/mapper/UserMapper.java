@@ -1,7 +1,6 @@
 package com.jhbim.bimvr.dao.mapper;
 
 import com.jhbim.bimvr.dao.entity.pojo.User;
-import com.jhbim.bimvr.dao.entity.pojo.UserKey;
 
 public interface UserMapper {
     int deleteByPrimaryKey(String phone);

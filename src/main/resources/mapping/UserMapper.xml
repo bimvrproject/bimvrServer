@@ -243,20 +243,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.User" >
     update user
-    set company_id = #{companyId,jdbcType=BIGINT},
-      role_id = #{roleId,jdbcType=BIGINT},
-      password = #{password,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      version = #{version,jdbcType=INTEGER},
-      login_flag = #{loginFlag,jdbcType=VARCHAR},
-      open_id = #{openId,jdbcType=VARCHAR},
-      picture = #{picture,jdbcType=VARCHAR},
+    set
+      user_name = #{userName,jdbcType=VARCHAR},
       remarks =  #{remarks,jdbcType=VARCHAR},
       position =  #{position,jdbcType=VARCHAR},
-      jurisdiction_id = #{jurisdictionId,jdbcType=VARCHAR},
       companyname =  #{companyname,jdbcType=VARCHAR}
     where  phone = #{phone,jdbcType=VARCHAR}
   </update>

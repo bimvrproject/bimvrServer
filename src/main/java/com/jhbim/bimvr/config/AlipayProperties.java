@@ -55,7 +55,7 @@ public class AlipayProperties {
      */
     @PostConstruct
     public void init() {
-        log.info(description());
+
     }
 
     public String description() {
