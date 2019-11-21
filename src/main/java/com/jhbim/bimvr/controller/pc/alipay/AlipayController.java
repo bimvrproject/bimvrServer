@@ -320,7 +320,7 @@ public class AlipayController {
 
             return verifyResult;
         } catch (AlipayApiException e) {
-            logger.debug("支付宝回调签名认证成功", e);
+//            logger.debug("支付宝回调签名认证成功", e);
             return false;
         }
     }
