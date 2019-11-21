@@ -34,6 +34,8 @@ public class User extends UserKey implements Serializable {
 
     private String jurisdictionId;
 
+    private String companyname;
+
     private static final long serialVersionUID = 1L;
 
     public Long getCompanyId() {
@@ -154,6 +156,14 @@ public class User extends UserKey implements Serializable {
 
     public void setJurisdictionId(String jurisdictionId) {
         this.jurisdictionId = jurisdictionId;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
     }
 
     @Override
