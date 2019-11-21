@@ -21,7 +21,7 @@ import java.util.List;
  * @create 2019-10-21 11:31
  */
 @RestController
-@RequestMapping("/${version}/app")
+@RequestMapping("/${version}/appDownload")
 public class AppdownloadController {
 
     @Autowired

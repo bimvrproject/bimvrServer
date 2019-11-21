@@ -113,8 +113,8 @@ public class AlipayController {
             // TRADE_SUCCESS(表示交易已经成功结束，可以对该交易做后续操作，如：分润、退款等);
             if (tradeStatus.equals("TRADE_FINISHED")) {
 
-                 iOrdersService.updateOrderStatus(orders.getId());
-                 return "订单状态修改";
+                iOrdersService.updateOrderStatus(orders.getId());
+                return "订单状态修改";
                 //注意：
                 //如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
                 //如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
@@ -259,7 +259,7 @@ public class AlipayController {
                 "subject=\"测试\"",//测试
                 "total_fee=\""+"0.01"+"\"",//支付金额（元）
                 "body=\"支付测试，共0.01元\"",//订单说明
-                            };
+        };
         String signOrderUrl = signAllString(parameters);
         return signOrderUrl;
     }
@@ -320,7 +320,7 @@ public class AlipayController {
 
             return verifyResult;
         } catch (AlipayApiException e) {
-//            logger.debug("支付宝回调签名认证成功", e);
+            logger.debug("支付宝回调签名认证成功", e);
             return false;
         }
     }
