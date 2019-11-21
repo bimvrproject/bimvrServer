@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class UserKey implements Serializable {
     private Long userId;
 
-    private String userName;
+//    private String userName;
 
     private static final long serialVersionUID = 1L;
 
@@ -17,13 +17,13 @@ public class UserKey implements Serializable {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName == null ? null : userName.trim();
+//    }
 
     @Override
     public String toString() {
@@ -32,7 +32,7 @@ public class UserKey implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", userId=").append(userId);
-        sb.append(", userName=").append(userName);
+//        sb.append(", userName=").append(userName);
         sb.append("]");
         return sb.toString();
     }
