@@ -67,7 +67,7 @@ public class UserController {
         userVo.setPhone(user.getPhone());
         userVo.setPicture(user.getPicture());
         userVo.setRoleName(role.getDescription());
-        return new Result(ResultStatusCode.OK,userVo);
+        return new Result(ResultStatusCode.UserVo,userVo);
     }
 
     /**
