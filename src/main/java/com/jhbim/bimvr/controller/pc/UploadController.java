@@ -34,6 +34,12 @@ public class UploadController {
     @Resource
     ResMeterialMapper meterialMapper;
 
+    @PostMapping("/uploadpicture")
+    public void  aa(MultipartFile[] file){
+        String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\picture";
+        fileUploadUtils.saveMultiFile(address, file);
+    }
+
     /**
      * 上传建筑模型到服务器
      * @param file
