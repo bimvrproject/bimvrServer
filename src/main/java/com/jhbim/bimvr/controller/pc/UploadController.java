@@ -34,10 +34,31 @@ public class UploadController {
     @Resource
     ResMeterialMapper meterialMapper;
 
+    /**
+     * 上传头像
+     * @param file
+     */
     @PostMapping("/uploadPictureImg")
-    public void  aa(MultipartFile[] file){
+    public void  uploadPictureImg(MultipartFile[] file){
         String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\picture";
         fileUploadUtils.saveMultiFile(address, file);
+    }
+
+    /**
+     * 上传Rvt模型
+     * @param
+     */
+    @PostMapping("/uploadRvtModel")
+    public void  uploadRvtModel(String uploadFile){
+
+        try {
+            String num="12";
+            String directory="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Rvt\\"+num;
+            Ftp ftpFileUpload = Ftp.getSftpUtil();
+            ftpFileUpload.upload(directory,uploadFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
