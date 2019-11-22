@@ -34,7 +34,7 @@ public class UploadController {
     @Resource
     ResMeterialMapper meterialMapper;
 
-    @PostMapping("/uploadpicture")
+    @PostMapping("/uploadPictureImg")
     public void  aa(MultipartFile[] file){
         String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\picture";
         fileUploadUtils.saveMultiFile(address, file);
