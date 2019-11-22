@@ -50,10 +50,8 @@ public class UploadController {
      */
     @PostMapping("/uploadRvtModel")
     public void  uploadRvtModel(String uploadFile){
-
         try {
-            String num="12";
-            String directory="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\Rvt\\"+num;
+            String directory="/";
             Ftp ftpFileUpload = Ftp.getSftpUtil();
             ftpFileUpload.upload(directory,uploadFile);
         } catch (Exception e) {

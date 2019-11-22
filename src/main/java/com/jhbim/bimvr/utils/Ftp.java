@@ -125,10 +125,10 @@ public class Ftp {
                     e.printStackTrace();
                     logger.error(file.getName() + "关闭文件时.....异常!" + e.getMessage());
                 }
-                if (file.exists()) {
-                    boolean b = file.delete();
-                    logger.info(file.getName() + "文件上传完毕!删除标识:" + b);
-                }
+//                if (file.exists()) {
+//                    boolean b = file.delete();
+//                    logger.info(file.getName() + "文件上传完毕!删除标识:" + b);
+//                }
                 if(file.isDirectory()){
                     file.delete();
                 }
