@@ -94,6 +94,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/"+version+"/Upload/uploadgxprice", "anon");
         //上传头像
         filterChainDefinitionMap.put("/"+version+"/Upload/uploadPictureImg", "anon");
+        // 上传Rvt模型
+        filterChainDefinitionMap.put("/"+version+"/Upload/uploadRvtModel", "anon");
         //保存截图
         filterChainDefinitionMap.put("/"+version+"/model/addprintscreen", "anon"); // 表示可以匿名访问
         //查询出截图的图片
