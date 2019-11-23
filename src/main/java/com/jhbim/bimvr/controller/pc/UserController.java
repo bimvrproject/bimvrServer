@@ -117,4 +117,14 @@ public class UserController {
         userMapper.updataremarks(remarks,phone);
         return new Result(ResultStatusCode.OK,"备注修改成功");
     }
+
+    /**
+     * 查询当前用户的信息
+     * @param phone
+     * @return
+     */
+    @GetMapping("/getuserAll")
+    public Result getuserAll( String phone){
+        return new Result(ResultStatusCode.OK,userMapper.getByPhone(phone));
+    }
 }
