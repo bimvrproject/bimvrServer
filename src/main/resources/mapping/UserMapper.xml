@@ -250,4 +250,28 @@
       companyname =  #{companyname,jdbcType=VARCHAR}
     where  phone = #{phone,jdbcType=VARCHAR}
   </update>
+  <!--修改用户昵称-->
+  <update id="updatausername"  parameterType="java.lang.String">
+    update user
+      set  user_name = #{userName,jdbcType=VARCHAR}
+      where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+  <!--修改所属公司-->
+  <update id="updatacompanyname"  parameterType="java.lang.String">
+    update user
+      set  companyname =  #{companyname,jdbcType=VARCHAR}
+      where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+  <!--修改职位-->
+  <update id="updataposition"  parameterType="java.lang.String">
+    update user
+      set  position =  #{position,jdbcType=VARCHAR}
+      where phone = #{phone,jdbcType=VARCHAR}
+  </update>
+  <!--修改备注-->
+  <update id="updataremarks"  parameterType="java.lang.String">
+    update user
+      set   remarks =  #{remarks,jdbcType=VARCHAR}
+      where phone = #{phone,jdbcType=VARCHAR}
+  </update>
 </mapper>

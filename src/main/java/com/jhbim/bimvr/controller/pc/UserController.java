@@ -71,14 +71,50 @@ public class UserController {
     }
 
     /**
-     * 修改用户的信息
-     * @param user
+     * 修改用户昵称
+     * @param userName  昵称
+     * @param phone 手机号
      * @return
      */
-    @PostMapping("/updatauser")
-    @ResponseBody
-    public Result updateuser(User user){
-        userMapper.updateByPrimaryKey(user);
-        return new Result(ResultStatusCode.OK,"修改成功");
+    @PostMapping("/updatausername")
+    public Result updatausername(String userName,String phone){
+        userMapper.updatausername(userName,phone);
+        return new Result(ResultStatusCode.OK,"昵称修改成功");
+    }
+
+    /**
+     * 修改所属公司
+     * @param companyname 所属公司
+     * @param phone 手机号
+     * @return
+     */
+    @PostMapping("/updatacompanyname")
+    public Result updatacompanyname(String companyname,String phone){
+        userMapper.updatacompanyname(companyname,phone);
+        return new Result(ResultStatusCode.OK,"所属公司修改成功");
+    }
+
+    /**
+     * 修改职位
+     * @param position 职位
+     * @param phone  手机号
+     * @return
+     */
+    @PostMapping("/updataposition")
+    public Result updataposition( String position,String phone){
+        userMapper.updataposition(position,phone);
+        return new Result(ResultStatusCode.OK,"职位修改成功");
+    }
+
+    /**
+     * 修改备注
+     * @param remarks 备注
+     * @param phone 手机号
+     * @return
+     */
+    @PostMapping("/updataremarks")
+    public Result updataremarks(String remarks,String phone){
+        userMapper.updataremarks(remarks,phone);
+        return new Result(ResultStatusCode.OK,"备注修改成功");
     }
 }
