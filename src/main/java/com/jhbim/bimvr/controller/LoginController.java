@@ -93,13 +93,14 @@ public class LoginController {
      * @return
      */
     @RequestMapping("RegisterphoneLogin")
-    public Result RegisterphoneLogin(String mobile){
+    public String RegisterphoneLogin(String mobile){
         String random= RandomStringUtils.randomNumeric(6);
         System.out.println(mobile+"随机数:"+random);
         redisTemplate.opsForValue().set(mobile,random+"",5, TimeUnit.MINUTES);  	//	5分钟过期
         SMSConfig.send(mobile,random);
-        UserToken token = new UserToken(LoginType.USER_REGISTER, mobile, random);
-        return shiroLogin(token);
+//        UserToken token = new UserToken(LoginType.USER_REGISTER, mobile, random);
+//        return shiroLogin(token);
+        return "验证码发送成功";
     }
 
     /**
@@ -196,14 +197,20 @@ public class LoginController {
                 result.setCode(2);
                 result.setMsg("短信验证码错误!");
             }else{
-                result.setCode(0);
-                result.setMsg("成功");
                 User user=new User();
                 user.setCompanyId(1L);
                 user.setRoleId(3L);
                 user.setPhone(phone);
-                user.setPassword(MD5Util.encrypt(pwd));
-                userMapper.insertSelective(user);
+                String regex = "[a-z0-9A-Z]+$";
+                if(pwd.matches(regex)==false){
+                    result.setCode(6);
+                    result.setMsg("不合法的字符");
+                    return result;
+                }else{
+                    result.setCode(7);
+                    user.setPassword(MD5Util.encrypt(pwd));
+                    userMapper.insertSelective(user);
+                }
                 return new Result(ResultStatusCode.RegiterSuccess);
             }
         }
