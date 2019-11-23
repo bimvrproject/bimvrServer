@@ -76,7 +76,7 @@ public class UserController {
      * @param phone 手机号
      * @return
      */
-    @PostMapping("/updatausername")
+    @GetMapping("/updatausername")
     public Result updatausername(String userName,String phone){
         userMapper.updatausername(userName,phone);
         return new Result(ResultStatusCode.OK,"昵称修改成功");
@@ -88,7 +88,7 @@ public class UserController {
      * @param phone 手机号
      * @return
      */
-    @PostMapping("/updatacompanyname")
+    @GetMapping("/updatacompanyname")
     public Result updatacompanyname(String companyname,String phone){
         userMapper.updatacompanyname(companyname,phone);
         return new Result(ResultStatusCode.OK,"所属公司修改成功");
@@ -100,7 +100,7 @@ public class UserController {
      * @param phone  手机号
      * @return
      */
-    @PostMapping("/updataposition")
+    @GetMapping("/updataposition")
     public Result updataposition( String position,String phone){
         userMapper.updataposition(position,phone);
         return new Result(ResultStatusCode.OK,"职位修改成功");
@@ -112,7 +112,7 @@ public class UserController {
      * @param phone 手机号
      * @return
      */
-    @PostMapping("/updataremarks")
+    @GetMapping("/updataremarks")
     public Result updataremarks(String remarks,String phone){
         userMapper.updataremarks(remarks,phone);
         return new Result(ResultStatusCode.OK,"备注修改成功");
