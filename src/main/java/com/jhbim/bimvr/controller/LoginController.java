@@ -207,7 +207,6 @@ public class LoginController {
                     result.setMsg("不合法的字符");
                     return result;
                 }else{
-                    result.setCode(7);
                     user.setPassword(MD5Util.encrypt(pwd));
                     userMapper.insertSelective(user);
                 }
