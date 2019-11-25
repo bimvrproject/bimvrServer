@@ -13,7 +13,7 @@ import java.util.List;
  * @create 2019-11-25 11:58
  */
 @Service
-public class MaterialImpl implements IMaterialService {
+public class MaterialServiceImpl implements IMaterialService {
 
     @Autowired
     private MaterialMapper materialMapper;
