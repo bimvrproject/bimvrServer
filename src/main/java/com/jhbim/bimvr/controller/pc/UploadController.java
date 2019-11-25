@@ -40,12 +40,12 @@ public class UploadController {
      */
     @PostMapping("/uploadPictureImg")
     public String  uploadPictureImg(MultipartFile[] file){
-        if(file!=null || file.length>0){
-            String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\picture";
-            fileUploadUtils.saveMultiFile(address, file);
-            return "上传成功";
+        if(file==null || file.length==0){
+            return "上传失败";
         }
-        return "上传失败";
+        String address="D:\\Tomcat9\\apache-tomcat-9.0.27\\webapps\\ROOT\\picture";
+        fileUploadUtils.saveMultiFile(address, file);
+        return "上传成功";
     }
 
     /**
