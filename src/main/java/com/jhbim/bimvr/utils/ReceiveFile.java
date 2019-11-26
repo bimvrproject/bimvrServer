@@ -94,10 +94,10 @@ public class ReceiveFile {
         } finally {
 //        	if (fout != null)
 //                fout.close();
-            if (din != null)
-                din.close();
-            if (socket != null)
-                socket.close();
+//            if (din != null)
+//                din.close();
+//            if (socket != null)
+//                socket.close();
         }
     }
 }
