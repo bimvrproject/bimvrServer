@@ -3,6 +3,8 @@ package com.jhbim.bimvr;
 import com.fasterxml.jackson.core.*;
 import com.jhbim.bimvr.utils.FileUploadUtils;
 import com.jhbim.bimvr.utils.IdWorker;
+import com.jhbim.bimvr.utils.ReceiveFile;
+import org.aspectj.lang.annotation.Before;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +21,8 @@ import javax.servlet.MultipartConfigElement;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 @SpringBootApplication(scanBasePackages = "com.jhbim.bimvr")
@@ -225,6 +229,27 @@ public class BimvrApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(BimvrApplication.class, args);
+        try {
+            final ServerSocket server = new ServerSocket(9091);
+            Thread th = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            System.out.println("开始监听...");
+                            Socket socket = server.accept();
+                            System.out.println("有链接");
+                            ReceiveFile.receiveFile(socket);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            th.run();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Bean
