@@ -10,6 +10,7 @@ import com.jhbim.bimvr.dao.mapper.ResModelMapper;
 import com.jhbim.bimvr.system.enums.ResultStatusCode;
 import com.jhbim.bimvr.utils.FileUploadUtils;
 import com.jhbim.bimvr.utils.Ftp;
+import com.jhbim.bimvr.utils.ReceiveFile;
 import com.jhbim.bimvr.utils.ShiroUtil;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -63,6 +66,36 @@ public class UploadController {
         }
 
     }
+
+    /**
+     * Socket监听C++传来的信息
+     * @return
+     */
+//    @RequestMapping("/Serversocket")
+//    public String Serversocket(){
+//        try {
+//            final ServerSocket server = new ServerSocket(9090);
+//            Thread th = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    while (true) {
+//                        try {
+//                            System.out.println("开始监听...");
+//                            Socket socket = server.accept();
+//                            System.out.println("有链接");
+//                            ReceiveFile.receiveFile(socket);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
+//            th.run();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//        return "开始监听";
+//    }
 
     /**
      * 上传建筑模型到服务器
