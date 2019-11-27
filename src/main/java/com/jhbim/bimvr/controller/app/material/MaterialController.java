@@ -20,7 +20,7 @@ import java.util.List;
  * @create 2019-11-25 11:33
  */
 @RestController
-//@RequestMapping("/${version}/material")
+@RequestMapping("/${version}/material")
 public class MaterialController {
 
     @Autowired
