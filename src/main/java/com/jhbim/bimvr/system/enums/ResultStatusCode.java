@@ -16,6 +16,7 @@ public enum ResultStatusCode {
     UserVo(5, "UserVo查询成功"),
     SIGN_ERROR(120, "签名错误"),
     TIME_OUT(130, "访问超时"),
+    SUCCESS(200, "请求处理成功"),
     BAD_REQUEST(400, "参数解析失败"),
     INVALID_TOKEN(401, "无效的授权码"),
     INVALID_CLIENTID(402, "无效的密钥"),

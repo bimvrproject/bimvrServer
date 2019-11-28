@@ -51,6 +51,6 @@ public class MaterialController {
         result.put("material",data);
         result.put("pages",data.getPages());
         result.put("total",data.getTotal());
-        return new Result(ResultStatusCode.OK,result);
+        return new Result(ResultStatusCode.SUCCESS,result);
     }
 }
