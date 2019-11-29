@@ -1,13 +1,13 @@
 package com.jhbim.bimvr.dao.mapper;
 
+import com.github.pagehelper.Page;
 import com.jhbim.bimvr.dao.entity.pojo.Material;
 
-import java.util.List;
 
 public interface MaterialMapper {
+    int insert(Material record);
 
+    int insertSelective(Material record);
 
-    List<Material> select();
-
-
+    Page<Material> findByPaging(String material_sortid);
 }
