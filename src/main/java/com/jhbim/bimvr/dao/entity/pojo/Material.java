@@ -10,15 +10,21 @@ public class Material implements Serializable {
 
     private String materialName;
 
-    private Date updatedTime;
+    private String materialSortid;
 
-    private String updatedBy;
+    private String url;
+
+    private String thumbnail;
+
+    private Integer revision;
 
     private Date createdTime;
 
     private String createdBy;
 
-    private Integer revision;
+    private String updatedBy;
+
+    private Date updatedTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -46,20 +52,36 @@ public class Material implements Serializable {
         this.materialName = materialName == null ? null : materialName.trim();
     }
 
-    public Date getUpdatedTime() {
-        return updatedTime;
+    public String getMaterialSortid() {
+        return materialSortid;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
-        this.updatedTime = updatedTime;
+    public void setMaterialSortid(String materialSortid) {
+        this.materialSortid = materialSortid == null ? null : materialSortid.trim();
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail == null ? null : thumbnail.trim();
+    }
+
+    public Integer getRevision() {
+        return revision;
+    }
+
+    public void setRevision(Integer revision) {
+        this.revision = revision;
     }
 
     public Date getCreatedTime() {
@@ -78,12 +100,20 @@ public class Material implements Serializable {
         this.createdBy = createdBy == null ? null : createdBy.trim();
     }
 
-    public Integer getRevision() {
-        return revision;
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setRevision(Integer revision) {
-        this.revision = revision;
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+    }
+
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public void setUpdatedTime(Date updatedTime) {
+        this.updatedTime = updatedTime;
     }
 
     @Override
@@ -95,11 +125,14 @@ public class Material implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", materialId=").append(materialId);
         sb.append(", materialName=").append(materialName);
-        sb.append(", updatedTime=").append(updatedTime);
-        sb.append(", updatedBy=").append(updatedBy);
+        sb.append(", materialSortid=").append(materialSortid);
+        sb.append(", url=").append(url);
+        sb.append(", thumbnail=").append(thumbnail);
+        sb.append(", revision=").append(revision);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", createdBy=").append(createdBy);
-        sb.append(", revision=").append(revision);
+        sb.append(", updatedBy=").append(updatedBy);
+        sb.append(", updatedTime=").append(updatedTime);
         sb.append("]");
         return sb.toString();
     }
