@@ -101,4 +101,13 @@
       url = #{url,jdbcType=VARCHAR}
     where res_meterial_id = #{resMeterialId,jdbcType=INTEGER}
   </update>
+  <select id="getprojectandmodelid" resultMap="BaseResultMap" parameterType="com.jhbim.bimvr.dao.entity.pojo.ResMeterial" >
+    select
+    <include refid="Base_Column_List" />
+    from res_meterial
+    where
+    model_id = #{modelId,jdbcType=VARCHAR}
+    and
+    project_id = #{projectId,jdbcType=INTEGER}
+  </select>
 </mapper>

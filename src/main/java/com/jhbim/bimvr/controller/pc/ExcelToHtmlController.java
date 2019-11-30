@@ -43,9 +43,16 @@ public class ExcelToHtmlController {
     @GetMapping("/exceltohtml")
     public Result exceltohtml(String addressurl){
         ExcelToHtml excelToHtml=new ExcelToHtml();
-        String convertByFile = excelToHtml.SubmitPost("http://dcs.yozosoft.com:80/upload", "C:/ftp"+addressurl, "0");
+        String convertByFile = excelToHtml.SubmitPost("http://dcs.yozosoft.com:80/upload", "C:/ftp/"+addressurl, "0");
         System.out.println(convertByFile);
-        String url= String.valueOf(convertByFile.subSequence(21,87));
+        String url= String.valueOf(convertByFile.subSequence(21,86));
         return  new Result(ResultStatusCode.OK,url);
+    }
+    @GetMapping("/getprojectandmodelid/{projectid}/{modelid}")
+    public Result getprojectandmodelid(@PathVariable  Long projectid, @PathVariable String modelid){
+        ResMeterial resMeterial=new ResMeterial();
+        resMeterial.setModelId(modelid);
+        resMeterial.setProjectId(projectid);
+        return new Result(ResultStatusCode.OK, resMeterialMapper.getprojectandmodelid(resMeterial));
     }
 }
