@@ -16,4 +16,6 @@ public interface ResMeterialMapper {
     int updateByPrimaryKey(ResMeterial record);
 
     ResMeterial getOneRes(ResMeterial resMeterial);
+
+    ResMeterial getprojectandmodelid(ResMeterial resMeterial);
 }
