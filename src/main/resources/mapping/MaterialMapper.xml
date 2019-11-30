@@ -2,43 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jhbim.bimvr.dao.mapper.MaterialMapper" >
   <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.Material" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="id" property="id" jdbcType="VARCHAR" />
     <result column="material_id" property="materialId" jdbcType="VARCHAR" />
     <result column="material_name" property="materialName" jdbcType="VARCHAR" />
-    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
-    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="material_sortid" property="materialSortid" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="REVISION" property="revision" jdbcType="INTEGER" />
     <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
     <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
-    <result column="REVISION" property="revision" jdbcType="INTEGER" />
+    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, material_id, material_name, UPDATED_TIME, UPDATED_BY, CREATED_TIME, CREATED_BY, 
-    REVISION
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from material
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="select" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from material
-    ORDER BY ID ASC
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from material
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
   <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.Material" >
     insert into material (id, material_id, material_name, 
-      UPDATED_TIME, UPDATED_BY, CREATED_TIME, 
-      CREATED_BY, REVISION)
+      material_sortid, url, thumbnail, 
+      REVISION, CREATED_TIME, CREATED_BY, 
+      UPDATED_BY, UPDATED_TIME)
     values (#{id,jdbcType=VARCHAR}, #{materialId,jdbcType=VARCHAR}, #{materialName,jdbcType=VARCHAR}, 
-      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
-      #{createdBy,jdbcType=VARCHAR}, #{revision,jdbcType=INTEGER})
+      #{materialSortid,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, 
+      #{revision,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=VARCHAR}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP})
   </insert>
+  <select id="findByPaging" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    *
+    from material
+    where material_sortid = #{materialSortid,jdbcType=VARCHAR}
+    </select>
   <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Material" >
     insert into material
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -51,11 +42,17 @@
       <if test="materialName != null" >
         material_name,
       </if>
-      <if test="updatedTime != null" >
-        UPDATED_TIME,
+      <if test="materialSortid != null" >
+        material_sortid,
       </if>
-      <if test="updatedBy != null" >
-        UPDATED_BY,
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail,
+      </if>
+      <if test="revision != null" >
+        REVISION,
       </if>
       <if test="createdTime != null" >
         CREATED_TIME,
@@ -63,8 +60,11 @@
       <if test="createdBy != null" >
         CREATED_BY,
       </if>
-      <if test="revision != null" >
-        REVISION,
+      <if test="updatedBy != null" >
+        UPDATED_BY,
+      </if>
+      <if test="updatedTime != null" >
+        UPDATED_TIME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -77,11 +77,17 @@
       <if test="materialName != null" >
         #{materialName,jdbcType=VARCHAR},
       </if>
-      <if test="updatedTime != null" >
-        #{updatedTime,jdbcType=TIMESTAMP},
+      <if test="materialSortid != null" >
+        #{materialSortid,jdbcType=VARCHAR},
       </if>
-      <if test="updatedBy != null" >
-        #{updatedBy,jdbcType=VARCHAR},
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="revision != null" >
+        #{revision,jdbcType=INTEGER},
       </if>
       <if test="createdTime != null" >
         #{createdTime,jdbcType=TIMESTAMP},
@@ -89,47 +95,12 @@
       <if test="createdBy != null" >
         #{createdBy,jdbcType=VARCHAR},
       </if>
-      <if test="revision != null" >
-        #{revision,jdbcType=INTEGER},
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.Material" >
-    update material
-    <set >
-      <if test="materialId != null" >
-        material_id = #{materialId,jdbcType=VARCHAR},
-      </if>
-      <if test="materialName != null" >
-        material_name = #{materialName,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedTime != null" >
-        UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedBy != null" >
-        UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createdTime != null" >
-        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createdBy != null" >
-        CREATED_BY = #{createdBy,jdbcType=VARCHAR},
-      </if>
-      <if test="revision != null" >
-        REVISION = #{revision,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jhbim.bimvr.dao.entity.pojo.Material" >
-    update material
-    set material_id = #{materialId,jdbcType=VARCHAR},
-      material_name = #{materialName,jdbcType=VARCHAR},
-      UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
-      UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
-      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
-      CREATED_BY = #{createdBy,jdbcType=VARCHAR},
-      REVISION = #{revision,jdbcType=INTEGER}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
 </mapper>
