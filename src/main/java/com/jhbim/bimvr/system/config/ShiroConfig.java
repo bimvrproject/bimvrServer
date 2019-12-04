@@ -69,9 +69,7 @@ public class ShiroConfig {
         // 账号密码登录方法
         filterChainDefinitionMap.put("/"+version+"/user/login", "anon"); // 表示可以匿名访问
         //手机验证码登录
-        filterChainDefinitionMap.put("/"+version+"/user/phoneLogin", "anon"); // 表示可以匿名访问
-        //手机验证码注册
-        filterChainDefinitionMap.put("/"+version+"/user/RegisterphoneLogin", "anon"); // 表示可以匿名访问
+        filterChainDefinitionMap.put("/"+version+"/user/sendSmscode", "anon"); // 表示可以匿名访问
         // 判断手机号是否已注册
         filterChainDefinitionMap.put("/"+version+"/user/register", "anon"); // 表示可以匿名访问
         // 注册判断手机号和验证码是否正确  完成注册
@@ -96,6 +94,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/"+version+"/Upload/uploadPictureImg", "anon");
         // 上传Rvt模型
         filterChainDefinitionMap.put("/"+version+"/Upload/uploadRvtModel", "anon");
+
+        filterChainDefinitionMap.put("/"+version+" /pcproject/aa", "anon");
         //保存截图
         filterChainDefinitionMap.put("/"+version+"/model/addprintscreen", "anon"); // 表示可以匿名访问
         //查询出截图的图片
