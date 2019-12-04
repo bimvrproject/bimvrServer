@@ -78,12 +78,14 @@ public class LoginController {
      */
     @RequestMapping("phoneLogin")
     public Result sendSms(String mobile){
+        Result result=new Result();
         //随机数6
         String random= RandomStringUtils.randomNumeric(6);
         System.out.println(mobile+"随机数:"+random);
         redisTemplate.opsForValue().set(mobile,random+"",5, TimeUnit.MINUTES);  	//	5分钟过期
         SMSConfig.send(mobile,random);
-        return new Result(ResultStatusCode.OK);
+        result.setMsg("验证码发送成功");
+        return result;
 
     }
 
