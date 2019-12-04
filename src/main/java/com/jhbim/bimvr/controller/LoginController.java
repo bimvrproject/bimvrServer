@@ -76,33 +76,16 @@ public class LoginController {
      * @param
      * @return
      */
-    @RequestMapping("phoneLogin")
+    @RequestMapping("/sendSmscode")
     public String sendSms(String mobile){
         String random= RandomStringUtils.randomNumeric(6);
         System.out.println(mobile+"随机数:"+random);
         //5分钟过期
-        System.out.println();
         redisTemplate.opsForValue().set(mobile,random+"",5, TimeUnit.MINUTES);
         SMSConfig.send(mobile,random);
         return "验证码发送成功";
-
     }
 
-    /**
-     * 手机验证码注册
-     * @param mobile
-     * @return
-     */
-    @RequestMapping("RegisterphoneLogin")
-    public String RegisterphoneLogin(String mobile){
-        String random= RandomStringUtils.randomNumeric(6);
-        System.out.println(mobile+"随机数:"+random);
-        redisTemplate.opsForValue().set(mobile,random+"",5, TimeUnit.MINUTES);  	//	5分钟过期
-        SMSConfig.send(mobile,random);
-//        UserToken token = new UserToken(LoginType.USER_REGISTER, mobile, random);
-//        return shiroLogin(token);
-        return "验证码发送成功";
-    }
 
     /**
      * 微信登录
