@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhbim.bimvr.dao.mapper.FurnitureSortsMapper" >
+  <resultMap id="BaseResultMap" type="com.jhbim.bimvr.dao.entity.pojo.FurnitureSorts" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="furniture_sortid" property="furnitureSortid" jdbcType="VARCHAR" />
+    <result column="furniture_sortname" property="furnitureSortname" jdbcType="VARCHAR" />
+    <result column="REVISION" property="revision" jdbcType="INTEGER" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="UPDATED_TIME" property="updatedTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="slelct"  resultMap="BaseResultMap">
+    select * from furniture_sorts
+  </select>
+  <insert id="insert" parameterType="com.jhbim.bimvr.dao.entity.pojo.FurnitureSorts" >
+    insert into furniture_sorts (id, furniture_sortid, furniture_sortname, 
+      REVISION, CREATED_BY, CREATED_TIME, 
+      UPDATED_BY, UPDATED_TIME)
+    values (#{id,jdbcType=BIGINT}, #{furnitureSortid,jdbcType=VARCHAR}, #{furnitureSortname,jdbcType=VARCHAR}, 
+      #{revision,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jhbim.bimvr.dao.entity.pojo.FurnitureSorts" >
+    insert into furniture_sorts
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="furnitureSortid != null" >
+        furniture_sortid,
+      </if>
+      <if test="furnitureSortname != null" >
+        furniture_sortname,
+      </if>
+      <if test="revision != null" >
+        REVISION,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME,
+      </if>
+      <if test="updatedBy != null" >
+        UPDATED_BY,
+      </if>
+      <if test="updatedTime != null" >
+        UPDATED_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="furnitureSortid != null" >
+        #{furnitureSortid,jdbcType=VARCHAR},
+      </if>
+      <if test="furnitureSortname != null" >
+        #{furnitureSortname,jdbcType=VARCHAR},
+      </if>
+      <if test="revision != null" >
+        #{revision,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
