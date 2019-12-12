@@ -53,7 +53,7 @@ public class LoginController {
         User user = userMapper.getByPhone(username);
         //判断是否注册过
         if(user==null){
-            return new Result(ResultStatusCode.NOT_EXIST_USER_OR_ERROR_PWD); //登录失败
+            return new Result(ResultStatusCode.IS_NOT_EXIST); //登录失败
         }
         //登录成功
         ServletContext application=request.getSession().getServletContext();
